@@ -25,3 +25,25 @@ labs/
 ## Lab Rule
 
 不要只记录 final answer。要记录 workflow decisions、tool calls、失败案例和 evaluation criteria。
+
+## Using External References
+
+如果 lab 参考了 `references/upstream/` 里的外部代码，不要直接改 upstream。建议流程：
+
+1. 在 `references/maps/` 找到对应索引。
+2. 阅读 upstream 的 README 和相关代码。
+3. 在 `labs/` 下新建自己的实验目录。
+4. 复制最小必要思路或重写最小版本。
+5. 在 lab note 里写清楚 source inspiration 和你自己的改动。
+
+推荐的第一个实验：
+
+```text
+labs/001-research-agent-minimal/
+```
+
+参考来源：
+
+```text
+references/upstream/agentic_ai_andrew/Module1/agentic-ai-public/
+```

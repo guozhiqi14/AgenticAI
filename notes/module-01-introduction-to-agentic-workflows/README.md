@@ -6,10 +6,10 @@
 - [ ] 02 - What is agentic AI?
 - [x] 03 - Degrees of autonomy
 - [x] 04 - Benefits of agentic AI
-- [ ] 05 - Agentic AI applications
-- [ ] 06 - Task decomposition: Identifying the steps in a workflow
-- [ ] 07 - Evaluating agentic AI (evals)
-- [ ] 08 - Agentic design patterns
+- [x] 05 - Agentic AI applications
+- [x] 06 - Task decomposition: Identifying the steps in a workflow
+- [x] 07 - Evaluating agentic AI (evals)
+- [x] 08 - Agentic design patterns
 - [ ] 09 - Optional: Set up your local environment for the ungraded labs
 - [ ] 10 - Module 1 quiz
 - [ ] 11 - Try the research agent
@@ -27,3 +27,7 @@
 
 - [03 - Degrees of autonomy](03-degrees-of-autonomy.md)
 - [04 - Benefits of agentic AI](04-benefits-of-agentic-ai.md)
+- [05 - Agentic AI applications](05-agentic-ai-applications.md)
+- [06 - Task decomposition](06-task-decomposition-identifying-the-steps-in-a-workflow.md)
+- [07 - Evaluating agentic AI (evals)](07-evaluating-agentic-ai-evals.md)
+- [08 - Agentic design patterns](08-agentic-design-patterns.md)

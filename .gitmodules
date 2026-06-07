@@ -1,0 +1,3 @@
+[submodule "references/upstream/agentic_ai_andrew"]
+	path = references/upstream/agentic_ai_andrew
+	url = https://github.com/nhatnam2609/agentic_ai_andrew.git

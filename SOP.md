@@ -2,6 +2,23 @@
 
 这个文件是之后每节课的固定协作流程。
 
+## 新机器接入
+
+如果你从另一台机器 clone 这个仓库，先运行：
+
+```bash
+git submodule update --init --recursive
+```
+
+然后让 Codex 先读：
+
+1. `MEMORY.md`
+2. `AGENTS.md`
+3. `README.md`
+4. 当前 module 的 `notes/.../README.md`
+
+这样它就能知道当前进度、目录结构、外部参考仓库和你的笔记风格。
+
 ## 基本流程
 
 1. 你在 Chrome 里打开一节课。
@@ -56,6 +73,12 @@
 这节涉及的概念能不能设计一个小实验？请在 labs/ 下面建实验记录。
 ```
 
+使用外部参考仓库：
+
+```text
+参考 references/maps/agentic_ai_andrew-map.md，帮我把当前章节和 upstream 代码对应起来。不要直接改 upstream；如果要实验，在 labs/ 里新建。
+```
+
 ## 分工
 
 你负责：
@@ -73,12 +96,15 @@ Codex 负责：
 - 抽取可复用的 concept cards。
 - 保存你的问题，而不是急着把所有问题都糊成答案。
 - 当一节课有实战价值时，建议 lab 或 eval 的设计。
+- 需要参考外部代码时，先看 `references/maps/`，再读 `references/upstream/`。
+- 如果要修改或运行外部代码思路，先在 `labs/` 里建立你自己的实验副本。
 
 ## 不建议做的事
 
 - 不要把完整 transcript 原样塞进仓库。
 - 不要等整门课看完再整理。
 - 不要一开始追求完美笔记。第一版只要能帮助复习和行动就够。
+- 不要直接在 `references/upstream/` 里做自己的实验修改。
 
 ## 复习节奏
 
@@ -96,3 +122,13 @@ Codex 负责：
 - 你自己的粗略 bullet notes。
 
 Codex 仍然可以根据这些材料整理笔记。
+
+## 什么时候更新长期文档
+
+遇到这些变化时，更新 `MEMORY.md` 和必要的 README：
+
+- 新增一个外部参考仓库。
+- 开始一个新的 module。
+- 建立新的 lab 工作流。
+- 改变目录结构或文件命名规则。
+- 形成新的固定协作方式。
