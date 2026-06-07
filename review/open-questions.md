@@ -22,3 +22,9 @@
 - planning 的 plan quality 应该怎么评估？
 - multi-agent workflow 什么时候真的比单 agent workflow 更好？
 - reflection 需要哪些外部反馈，才能避免模型只是自我确认？
+- 哪些任务最适合用 reflection，哪些任务直接 generation 就够了？
+- Critique prompt 应该如何写，才能让 feedback 具体可执行？
+- Reflection loop 的停止条件应该如何设计？
+- Reflection prompt 中 criteria 应该写到多细，才能既有效又不限制模型发现其他问题？
+- 如何设计 direct generation vs reflection 的最小对照实验？
+- 如何区分 reflection 带来的“表面润色”与“真实质量提升”？

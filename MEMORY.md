@@ -36,6 +36,14 @@ Module 1 当前核心概念卡：
 - `concepts/agentic-evals.md`
 - `concepts/agentic-design-patterns.md`
 
+Module 2 已开始：
+
+- `notes/module-02-reflection-design-pattern/01-reflection-to-improve-outputs-of-a-task.md`
+
+Module 2 当前核心概念卡：
+
+- `concepts/reflection-pattern.md`
+
 ## Current Repository Design
 
 ```text
@@ -142,7 +150,6 @@ Then read:
   - local environment setup reading
   - module quiz review
   - research agent code example
-- Start Module 2: Reflection Design Pattern.
+- Continue Module 2: Reflection Design Pattern.
 - Create first lab from upstream Module 1 research agent:
   - proposed path: `labs/001-research-agent-minimal/`
-

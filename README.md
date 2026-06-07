@@ -54,7 +54,7 @@ git submodule update --init --recursive
 ## 当前进度
 
 Course: Agentic AI  
-Module 1: Introduction to Agentic Workflows
+Current module: Module 2: Reflection Design Pattern
 
 Module 1 已整理：
 
@@ -65,11 +65,16 @@ Module 1 已整理：
 - Evaluating agentic AI
 - Agentic design patterns
 
+Module 2 已开始：
+
+- Reflection to improve outputs of a task
+
 建议从这里开始：
 
 - [MEMORY.md](MEMORY.md)
 - [AGENTS.md](AGENTS.md)
 - [SOP.md](SOP.md)
 - [Module 1 notes](notes/module-01-introduction-to-agentic-workflows/README.md)
+- [Module 2 notes](notes/module-02-reflection-design-pattern/README.md)
 - [Autonomy spectrum concept card](concepts/autonomy-spectrum.md)
 - [External reference map](references/maps/agentic_ai_andrew-map.md)

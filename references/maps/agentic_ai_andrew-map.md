@@ -32,6 +32,8 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `notes/module-01-introduction-to-agentic-workflows/06-task-decomposition-identifying-the-steps-in-a-workflow.md` | `Module1/agentic-ai-public/src/agents.py` and `src/planning_agent.py` | 对照 planner、researcher、writer、editor 的步骤拆解 |
 | `notes/module-01-introduction-to-agentic-workflows/07-evaluating-agentic-ai-evals.md` | `Module4/` | 等学到 Module 4 后补充 evals 实战细节 |
 | `notes/module-01-introduction-to-agentic-workflows/08-agentic-design-patterns.md` | `Module2/`, `Module3/`, `Module5/` | 分别对应 reflection、tool use、multi-agent |
+| `notes/module-02-reflection-design-pattern/01-reflection-to-improve-outputs-of-a-task.md` | `Module2/M2_README.md` and `Module2/` labs | 对照 reflection 的 draft -> critique -> revise 实例 |
+| `notes/module-02-reflection-design-pattern/02-why-not-just-direct-generation.md` | `Module2/M2_README.md` and reflection labs | 用 upstream labs 做 direct generation vs reflection 对照 |
 
 ## Code Reading Path
 
@@ -77,4 +79,3 @@ git submodule update --remote references/upstream/agentic_ai_andrew
 ```bash
 git submodule update --init --recursive
 ```
-
