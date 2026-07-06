@@ -28,6 +28,20 @@ Input
   -> Revise
 ```
 
+## External Feedback
+
+External feedback 是 reflection 的重要增强版：它把来自 LLM 之外的新信息加入 critique/revise loop。
+
+常见 feedback source：
+
+- Code execution: output、error message、test result。
+- Pattern matching: 竞品名、禁用词、敏感词。
+- Retrieval/search: trusted source、事实证据。
+- Deterministic checks: word count、schema validation、SQL execution。
+- User feedback: 用户明确指出的问题或偏好。
+
+这类 feedback 往往比纯自我反思更强，因为模型拿到了原本没有的新 evidence。
+
 ## Direct Generation Baseline
 
 使用 reflection 前，最好先建立 direct generation / zero-shot baseline：
@@ -37,6 +51,18 @@ Input -> LLM -> Final output
 ```
 
 Reflection 的价值不是“看起来更 agentic”，而是相对 baseline 是否真的提升质量。常见比较维度包括 error rate、format validity、completeness、human preference、latency 和 token cost。
+
+## Evaluating Reflection
+
+Reflection 会带来额外 LLM call，所以需要用 eval 判断是否值得：
+
+| Task Type | Eval Approach | Example |
+| --- | --- | --- |
+| 有明确正确答案 | Objective eval / code-based eval | SQL query 得到的答案是否等于 ground truth |
+| 质量主观 | Rubric-based LLM-as-judge | 图表是否有清晰标题、坐标轴标签、合适图表类型 |
+| 有外部检查信号 | Tool/checker feedback eval | no feedback vs external-feedback reflection |
+
+不要只让 judge model 直接比较两个 outputs 哪个更好；这种 pairwise comparison 可能受 position bias 影响。更稳的做法是给单个 output 一组 binary criteria，然后把分数加总。
 
 ## Best Fit
 
@@ -58,12 +84,15 @@ Reflection 的价值不是“看起来更 agentic”，而是相对 baseline 是
 - Reflection 的质量收益是否值得额外 latency 和 cost？
 - Direct generation baseline 表现如何？
 - 哪些 criteria 最值得放进 reflection prompt？
+- Reflection 的 eval 应该是 objective code check，还是 rubric-based judge？
+- 是否可以加入一个小工具，让 feedback 更具体？
 
 ## Failure Modes
 
 - 模型只是重述初稿，没有真正发现问题。
 - Critique 太泛，revision 没有方向。
 - 没有外部反馈时，模型可能自信地修错。
+- 外部反馈本身不可靠时，revision 会被错误证据带偏。
 - 循环太多，成本和 latency 失控。
 - Reflection 让表面文字更漂亮，但事实或逻辑没有改善。
 
@@ -77,5 +106,8 @@ Reflection 的价值不是“看起来更 agentic”，而是相对 baseline 是
 
 - [Reflection to Improve Outputs of a Task](../notes/module-02-reflection-design-pattern/01-reflection-to-improve-outputs-of-a-task.md)
 - [Why Not Just Direct Generation?](../notes/module-02-reflection-design-pattern/02-why-not-just-direct-generation.md)
+- [Evaluating the Impact of Reflection](../notes/module-02-reflection-design-pattern/05-evaluating-the-impact-of-reflection.md)
+- [Using External Feedback](../notes/module-02-reflection-design-pattern/06-using-external-feedback.md)
+- [External feedback](external-feedback.md)
 - [Agentic design patterns](agentic-design-patterns.md)
 - [Agentic evals](agentic-evals.md)

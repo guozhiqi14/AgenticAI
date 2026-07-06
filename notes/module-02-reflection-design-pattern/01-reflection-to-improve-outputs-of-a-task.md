@@ -100,10 +100,12 @@ LLM 先生成一版代码，然后另一次 LLM call 检查 bug、style、effici
 - [Agentic Design Patterns](../module-01-introduction-to-agentic-workflows/08-agentic-design-patterns.md)
 - [Evaluating Agentic AI](../module-01-introduction-to-agentic-workflows/07-evaluating-agentic-ai-evals.md)
 - [Reflection pattern](../../concepts/reflection-pattern.md)
+- [External feedback](../../concepts/external-feedback.md)
 - [Open questions](../../review/open-questions.md)
 
 ## Next Actions
 
 - [x] 抽取 reflection pattern concept card。
 - [x] 下一节比较 reflection vs direct generation 后，补充适用条件。
+- [x] 后续 `Using external feedback` 后，补充 external feedback 的具体工具形态。
 - [ ] 后续 chart/SQL lab 后，补充真实 workflow 和 eval 观察。

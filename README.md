@@ -54,7 +54,7 @@ git submodule update --init --recursive
 ## 当前进度
 
 Course: Agentic AI  
-Current module: Module 2: Reflection Design Pattern
+Current module: Module 3: Tool use
 
 Module 1 已整理：
 
@@ -68,6 +68,14 @@ Module 1 已整理：
 Module 2 已开始：
 
 - Reflection to improve outputs of a task
+- Why not just direct generation?
+- Evaluating the impact of reflection
+- Using external feedback
+
+Module 3 已开始：
+
+- What are tools?
+- Creating a tool
 
 建议从这里开始：
 
@@ -76,5 +84,7 @@ Module 2 已开始：
 - [SOP.md](SOP.md)
 - [Module 1 notes](notes/module-01-introduction-to-agentic-workflows/README.md)
 - [Module 2 notes](notes/module-02-reflection-design-pattern/README.md)
+- [Module 3 notes](notes/module-03-tool-use/README.md)
 - [Autonomy spectrum concept card](concepts/autonomy-spectrum.md)
+- [Tool use concept card](concepts/tool-use.md)
 - [External reference map](references/maps/agentic_ai_andrew-map.md)

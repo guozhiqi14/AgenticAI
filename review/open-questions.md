@@ -28,3 +28,22 @@
 - Reflection prompt 中 criteria 应该写到多细，才能既有效又不限制模型发现其他问题？
 - 如何设计 direct generation vs reflection 的最小对照实验？
 - 如何区分 reflection 带来的“表面润色”与“真实质量提升”？
+
+## Module 2
+
+- 对我自己的数据分析 agent，哪些任务可以最先建立 prompts + ground truth 的 objective eval set？
+- 对图表和分析报告，binary rubric 应该怎么设计，才能既贴近业务质量，又不让 LLM-as-judge 过度主观？
+- 当 reflection workflow 的 eval 分数提升但 latency/cost 也上升时，应该如何设定“值得上线”的阈值？
+- 对数据分析 agent，哪些 external feedback 最应该先做：SQL execution error、schema validation、指标口径校验、还是业务 wiki retrieval？
+- 如何设计 feedback format，才能让 LLM 根据工具结果稳定 revision，而不是忽略或误解反馈？
+- 哪些 external feedback 可以自动触发 revision，哪些应该触发 human review？
+
+## Module 3
+
+- 数据分析 agent 的第一批 tools 应该如何排序：schema lookup、SQL execution、metric retrieval、Python execution、chart generation？
+- 如何评估 LLM 是否在正确时机调用正确工具？
+- Tool result 应该返回多细：原始 rows、聚合结果、摘要、还是结构化 JSON？
+- 哪些工具可以让 LLM 自主调用，哪些工具必须 human-approved？
+- Tool 数量增加后，如何避免模型选择困难或误调用？
+- Tool arguments 应该让 LLM 直接生成自由文本，还是尽量设计成结构化字段和枚举值？
+- Tool result 很长时，应该如何摘要或采样，避免把无关信息塞回上下文？

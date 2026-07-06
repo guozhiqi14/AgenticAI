@@ -39,10 +39,24 @@ Module 1 当前核心概念卡：
 Module 2 已开始：
 
 - `notes/module-02-reflection-design-pattern/01-reflection-to-improve-outputs-of-a-task.md`
+- `notes/module-02-reflection-design-pattern/02-why-not-just-direct-generation.md`
+- `notes/module-02-reflection-design-pattern/05-evaluating-the-impact-of-reflection.md`
+- `notes/module-02-reflection-design-pattern/06-using-external-feedback.md`
 
 Module 2 当前核心概念卡：
 
 - `concepts/reflection-pattern.md`
+- `concepts/agentic-evals.md`
+- `concepts/external-feedback.md`
+
+Module 3 已开始：
+
+- `notes/module-03-tool-use/01-what-are-tools.md`
+- `notes/module-03-tool-use/02-creating-a-tool.md`
+
+Module 3 当前核心概念卡：
+
+- `concepts/tool-use.md`
 
 ## Current Repository Design
 
@@ -151,5 +165,7 @@ Then read:
   - module quiz review
   - research agent code example
 - Continue Module 2: Reflection Design Pattern.
+- Continue Module 3: Tool use.
+- Next likely Module 3 lesson: `Tool syntax`.
 - Create first lab from upstream Module 1 research agent:
   - proposed path: `labs/001-research-agent-minimal/`
