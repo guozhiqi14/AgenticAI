@@ -47,3 +47,8 @@
 - Tool 数量增加后，如何避免模型选择困难或误调用？
 - Tool arguments 应该让 LLM 直接生成自由文本，还是尽量设计成结构化字段和枚举值？
 - Tool result 很长时，应该如何摘要或采样，避免把无关信息塞回上下文？
+- 数据分析 agent 的 SQL 工具 schema 应该暴露 raw SQL，还是暴露更受控的 query spec？
+- Tool schema 里应该如何表达表权限、指标口径、返回行数上限和禁止写操作？
+- 自动从 docstring 生成 tool schema 后，应该如何 review 和 eval，避免描述误导模型？
+- `max_turns` 到底应该按任务类型固定，还是根据工具风险动态设置？
+- Code execution tool 的最小安全沙箱应该包含哪些限制？

@@ -33,6 +33,22 @@ LLM emits tool call request
 
 早期可以用文本约定实现，比如让模型输出 `FUNCTION: getCurrentTime`；现代 LLM 通常有更标准的结构化 tool-call syntax。
 
+## Tool Schema
+
+现代 tool use 通常会把工具以结构化 schema 暴露给 LLM。这个 schema 像一份“给模型看的 API 文档”：
+
+```text
+tool name
+tool description
+parameters
+required fields
+argument types / examples
+```
+
+有些 library 可以从 Python function name、docstring、type hints 和参数说明自动生成 JSON schema。这样很方便，但也让函数注释变得更重要：docstring 写得含糊，模型看到的 tool description 也会含糊。
+
+对于数据分析 agent，tool schema 应该特别说清楚表名、指标名、日期范围、返回行数、是否允许写操作、错误返回格式等边界。
+
 ## Tool Use vs Hard-Coded Tool Call
 
 | Pattern | Decision Maker | Strength | Risk |
@@ -68,6 +84,8 @@ Tool use 的稳定性很大程度取决于 argument design：
 - 用户任务需要哪些外部信息或动作？
 - 工具是否应该由 LLM 自主选择，还是由 workflow 固定调用？
 - 工具输入参数是否足够清楚？
+- Tool schema 是否准确描述了 name、description、parameters 和 required fields？
+- 自动生成的 schema 是否经过人工检查？
 - 工具返回结果是否容易被 LLM 使用？
 - 工具失败时应该返回什么？
 - 工具是否有副作用？是否需要 human approval？
@@ -90,6 +108,7 @@ Tool use 的稳定性很大程度取决于 argument design：
 
 - Tool description 太模糊，LLM 不知道何时调用。
 - 参数 schema 不清楚，导致 tool arguments 错误。
+- Docstring 或自动生成 schema 太模糊，导致模型误用工具。
 - 工具返回过多原始数据，超过上下文或难以总结。
 - LLM 过度调用工具，造成成本和延迟上升。
 - LLM 不调用必要工具，生成 hallucinated answer。
@@ -99,6 +118,8 @@ Tool use 的稳定性很大程度取决于 argument design：
 
 - [What are tools?](../notes/module-03-tool-use/01-what-are-tools.md)
 - [Creating a tool](../notes/module-03-tool-use/02-creating-a-tool.md)
+- [Tool Syntax](../notes/module-03-tool-use/03-tool-syntax.md)
+- [Tool schema](tool-schema.md)
 - [External feedback](external-feedback.md)
 - [Task decomposition](task-decomposition.md)
 - [Agentic design patterns](agentic-design-patterns.md)

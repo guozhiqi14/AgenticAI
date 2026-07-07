@@ -53,10 +53,16 @@ Module 3 已开始：
 
 - `notes/module-03-tool-use/01-what-are-tools.md`
 - `notes/module-03-tool-use/02-creating-a-tool.md`
+- `notes/module-03-tool-use/03-tool-syntax.md`
 
 Module 3 当前核心概念卡：
 
 - `concepts/tool-use.md`
+- `concepts/tool-schema.md`
+
+横向个人笔记：
+
+- `notes/zhiqi_notes.md`
 
 ## Current Repository Design
 
@@ -166,6 +172,6 @@ Then read:
   - research agent code example
 - Continue Module 2: Reflection Design Pattern.
 - Continue Module 3: Tool use.
-- Next likely Module 3 lesson: `Tool syntax`.
+- Next likely Module 3 lesson: `Ungraded Lab: Turning functions into tools`.
 - Create first lab from upstream Module 1 research agent:
   - proposed path: `labs/001-research-agent-minimal/`
