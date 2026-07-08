@@ -78,6 +78,8 @@ Module 3 已开始：
 - What are tools?
 - Creating a tool
 - Tool syntax
+- Code execution
+- MCP
 
 建议从这里开始：
 
@@ -91,4 +93,6 @@ Module 3 已开始：
 - [Autonomy spectrum concept card](concepts/autonomy-spectrum.md)
 - [Tool use concept card](concepts/tool-use.md)
 - [Tool schema concept card](concepts/tool-schema.md)
+- [Code execution tool concept card](concepts/code-execution-tool.md)
+- [MCP concept card](concepts/model-context-protocol.md)
 - [External reference map](references/maps/agentic_ai_andrew-map.md)

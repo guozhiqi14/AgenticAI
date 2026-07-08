@@ -52,3 +52,11 @@
 - 自动从 docstring 生成 tool schema 后，应该如何 review 和 eval，避免描述误导模型？
 - `max_turns` 到底应该按任务类型固定，还是根据工具风险动态设置？
 - Code execution tool 的最小安全沙箱应该包含哪些限制？
+- 数据分析 agent 的 Python execution tool 是否应该默认禁止网络访问？
+- Code execution 生成的 artifact 应该如何保存、命名和清理？
+- 如何评估 LLM 写代码的质量：看最终答案、代码可读性、执行成功率，还是安全违规率？
+- 当 code execution 失败时，哪些错误适合自动 retry，哪些应该直接交给人？
+- 数据分析 agent 最应该先接哪个 MCP server：GitHub、Postgres、业务 wiki、指标平台，还是实验平台？
+- MCP resource 返回原始内容、摘要还是结构化 JSON，哪个更利于稳定回答？
+- 多个 MCP servers 同时可用时，如何评估 LLM 是否选对 server/tool/resource？
+- 内部 MCP server 的权限应该如何和员工身份、数据表权限、业务动作权限对齐？

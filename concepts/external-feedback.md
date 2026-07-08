@@ -58,7 +58,9 @@ Input
 ## Related Notes
 
 - [Using External Feedback](../notes/module-02-reflection-design-pattern/06-using-external-feedback.md)
+- [Code Execution](../notes/module-03-tool-use/06-code-execution.md)
 - [What are tools?](../notes/module-03-tool-use/01-what-are-tools.md)
 - [Tool use](tool-use.md)
+- [Code execution tool](code-execution-tool.md)
 - [Reflection pattern](reflection-pattern.md)
 - [Agentic evals](agentic-evals.md)

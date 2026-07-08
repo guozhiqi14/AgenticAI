@@ -37,6 +37,8 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `notes/module-03-tool-use/01-what-are-tools.md` | `Module3/M3_README.md` and `Module3/` labs | 对照 function calling、tool schema 和多工具工作流 |
 | `notes/module-03-tool-use/02-creating-a-tool.md` | `Module3/M3_README.md` and `Module3/` labs | 对照 tool registry、tool call request 和 tool result 回填 |
 | `notes/module-03-tool-use/03-tool-syntax.md` | `Module3/M3_README.md` and `Module3/` labs | 对照 tool schema、function docstring 和 tool-call loop 实现 |
+| `notes/module-03-tool-use/06-code-execution.md` | `Module3/M3_README.md` and `Module3/` labs | 对照 code execution tool、sandbox、error feedback 和 retry loop |
+| `notes/module-03-tool-use/07-mcp.md` | `Module3/M3_README.md` and `Module3/` labs | 对照 MCP client/server、resources、tool ecosystem 和标准化集成 |
 | `notes/zhiqi_notes.md` | `Module3/ungraded_labs/M3_UGL_1/`, `Module3/ungraded_labs/M3_UGL_2/` | 记录手动 tool-call loop、message history、REST route 和 backend mental model |
 
 ## Code Reading Path

@@ -60,6 +60,50 @@ Python 函数或类下面的说明文字。某些 tool-calling library 会用 do
 
 Tool-call loop 的最大轮数限制。它防止模型连续请求工具调用而停不下来，是控制成本、延迟和异常循环的安全阀。
 
+## Code Execution
+
+让 LLM 生成代码，并由外部系统执行代码的能力。执行结果、错误日志或生成文件会返回给 LLM，用来回答用户或继续修正。
+
+## Sandbox
+
+隔离执行环境，用来限制代码能访问的文件、网络、环境变量、CPU、内存、磁盘和执行时间。Code execution tool 最好在 sandbox 中运行。
+
+## Python `exec`
+
+Python 内置函数，可以执行字符串形式的 Python 代码。它很强大，但直接执行 LLM 生成的任意代码有安全风险。
+
+## stdout / stderr
+
+程序执行时的标准输出和标准错误。stdout 通常放正常结果，stderr 通常放错误或诊断信息。Code execution tool 会把这些结果回传给 LLM。
+
+## Traceback
+
+Python 报错时展示的调用链和错误位置。把 traceback 反馈给 LLM，常常能帮助它 revise code 并重试。
+
+## Docker
+
+常见容器技术，可以把代码放在隔离环境中运行，降低影响主机文件系统和依赖环境的风险。
+
+## E2B
+
+一种面向 AI 应用的轻量 sandbox 服务，可以用来运行 LLM 生成的代码，并隔离执行环境。
+
+## MCP / Model Context Protocol
+
+一种让 LLM 应用标准化接入 tools 和 data sources 的协议。它让应用作为 MCP client 连接 MCP server，从而获取 resources 或调用 tools。
+
+## MCP Client
+
+想使用 MCP tools/resources 的 LLM 应用。比如桌面 AI 应用、自建数据分析 agent 或其他 agentic application。
+
+## MCP Server
+
+提供 MCP tools/resources 的服务包装层。它通常连接真实外部系统，比如 GitHub、Slack、Google Drive、Postgres、业务知识库或内部指标平台。
+
+## Resource
+
+MCP 语境中，resource 通常指可读取的数据或上下文，例如文件内容、repo README、issue、表 schema、指标定义或业务文档。
+
 ## HTTP
 
 客户端和服务器之间通信的一套规则。核心模型是 request -> response：客户端发送请求，服务器处理后返回结果。浏览器、手机 App、Python 脚本、后端服务和 LLM tool 背后的函数都可以发 HTTP request。

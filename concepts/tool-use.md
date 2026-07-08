@@ -67,6 +67,18 @@ argument types / examples
 | Business action | send email, create calendar invite, update CRM |
 | Validation | schema check, word count, policy checker |
 
+## Code Execution As A Special Tool
+
+Code execution tool 不是一个固定业务函数，而是让 LLM 为当前任务写代码，再由外部执行环境运行代码。它适合计算、数据处理、绘图、文件解析和 sanity check。
+
+这个工具很强，因为一个 code execution tool 可以覆盖很多临时能力；但它也更危险，因为 LLM-generated code 可能读写文件、访问网络、占用资源或产生副作用。因此，生产系统里应该把 code execution 放在 sandbox 中，并限制权限、资源、网络和执行时间。
+
+## MCP As Tool Ecosystem
+
+MCP 把 tool use 从“每个应用自己封装每个工具”推进到标准化生态。应用可以作为 MCP client，连接 GitHub、Postgres、Slack、Google Drive 或内部业务系统的 MCP server，获取 resources 或调用 tools。
+
+这对 agent 应用很重要，因为它减少重复集成工作，也让工具/数据源更容易被多个 LLM 应用复用。
+
 ## Tool Arguments
 
 有些工具不需要参数，例如 `getCurrentTime()`。更多工具需要 arguments，例如 `getCurrentTime(timezone)`、`queryDatabase(sql)`、`searchWeb(query)`。
@@ -82,6 +94,7 @@ Tool use 的稳定性很大程度取决于 argument design：
 ## Design Questions
 
 - 用户任务需要哪些外部信息或动作？
+- 是否已有 MCP server 可以复用，而不是自己重新封装 API？
 - 工具是否应该由 LLM 自主选择，还是由 workflow 固定调用？
 - 工具输入参数是否足够清楚？
 - Tool schema 是否准确描述了 name、description、parameters 和 required fields？
@@ -89,6 +102,7 @@ Tool use 的稳定性很大程度取决于 argument design：
 - 工具返回结果是否容易被 LLM 使用？
 - 工具失败时应该返回什么？
 - 工具是否有副作用？是否需要 human approval？
+- 如果工具是 code execution，是否有 sandbox、timeout 和资源限制？
 - 如何评估 tool selection 和 tool arguments 是否正确？
 - Tool result 如何放回上下文，才能让 LLM 正确继续？
 
@@ -113,13 +127,18 @@ Tool use 的稳定性很大程度取决于 argument design：
 - LLM 过度调用工具，造成成本和延迟上升。
 - LLM 不调用必要工具，生成 hallucinated answer。
 - 有副作用工具缺少权限控制，造成错误操作。
+- Code execution 没有隔离，导致文件损坏、数据泄露或资源耗尽。
 
 ## Related Notes
 
 - [What are tools?](../notes/module-03-tool-use/01-what-are-tools.md)
 - [Creating a tool](../notes/module-03-tool-use/02-creating-a-tool.md)
 - [Tool Syntax](../notes/module-03-tool-use/03-tool-syntax.md)
+- [Code Execution](../notes/module-03-tool-use/06-code-execution.md)
+- [MCP](../notes/module-03-tool-use/07-mcp.md)
 - [Tool schema](tool-schema.md)
+- [Code execution tool](code-execution-tool.md)
+- [Model Context Protocol](model-context-protocol.md)
 - [External feedback](external-feedback.md)
 - [Task decomposition](task-decomposition.md)
 - [Agentic design patterns](agentic-design-patterns.md)
