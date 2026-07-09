@@ -39,6 +39,10 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `notes/module-03-tool-use/03-tool-syntax.md` | `Module3/M3_README.md` and `Module3/` labs | 对照 tool schema、function docstring 和 tool-call loop 实现 |
 | `notes/module-03-tool-use/06-code-execution.md` | `Module3/M3_README.md` and `Module3/` labs | 对照 code execution tool、sandbox、error feedback 和 retry loop |
 | `notes/module-03-tool-use/07-mcp.md` | `Module3/M3_README.md` and `Module3/` labs | 对照 MCP client/server、resources、tool ecosystem 和标准化集成 |
+| `notes/module-04-evals-and-optimization/01-evaluations-evals.md` | `Module4/M4_README.md` | 课程页为主；upstream Module 4 当前只作后续 eval/lab 方向提示 |
+| `notes/module-04-evals-and-optimization/02-error-analysis-and-prioritizing-next-steps.md` | `Module4/M4_README.md` | 课程页为主；用作后续 component-level eval lab 的 error-analysis checklist |
+| `notes/module-04-evals-and-optimization/03-more-error-analysis-examples.md` | `Module4/M4_README.md` | 课程页为主；补充 invoice/customer-email 的 component attribution 案例 |
+| `notes/module-04-evals-and-optimization/04-component-level-evaluations.md` | `Module4/M4_README.md` | 课程页为主；为后续 research workflow component-level eval lab 铺垫 |
 | `notes/zhiqi_notes.md` | `Module3/ungraded_labs/M3_UGL_1/`, `Module3/ungraded_labs/M3_UGL_2/` | 记录手动 tool-call loop、message history、REST route 和 backend mental model |
 
 ## Code Reading Path
@@ -70,7 +74,7 @@ Source: `references/upstream/agentic_ai_andrew/`
 
 - Upstream README 把 Module 1 描述为 planning/research agent，这和我们 Module 1 的 introduction notes 可以互相补充。
 - Upstream 的 Module 2/3/5 对应课程后续 design patterns，暂时不急着读透。
-- Upstream Module 4 会在学 evals 深水区时很有用，可以回头扩展 `concepts/agentic-evals.md`。
+- 当前课程页的 Module 4 是 evals / error analysis / optimization 主线；本地 upstream `Module4/M4_README.md` 内容较稀疏且不完全对齐，先以课程页面和自己的笔记为主，等做 component-level eval lab 时再决定是否借用 upstream。
 
 ## Maintenance
 

@@ -502,6 +502,385 @@ tool_result = tool_func(**args)
 
 ---
 
+## Messages / Roles / API Return: 不要把本地历史和 API 返回混在一起
+
+Date: 2026-07-09
+Context: Module 3 Graded Lab: Research agent
+Source notebook: `references/upstream/agentic_ai_andrew/Module3/graded_labs/research_agent/GL-M3.ipynb`
+Related docs:
+
+- OpenAI Chat Completions API reference: `https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create`
+- OpenAI Function calling guide: `https://developers.openai.com/api/docs/guides/function-calling`
+
+### 我当时的困惑
+
+在这个 loop 里：
+
+```python
+response = client.chat.completions.create(
+    model=model,
+    messages=messages,
+    tools=functions,
+    tool_choice="auto",
+)
+
+msg = response.choices[0].message
+messages.append(msg)
+```
+
+我一开始容易把两个东西混在一起：
+
+- `messages`: 是不是 API 返回回来的一整个历史？
+- `response.choices[0].message`: 是不是包含了 user 原始问题和 assistant 回复？
+- `choices`: 是不是像 `messages` 一样，是一组 user / assistant 对话？
+
+### 最重要的结论
+
+`messages` 是应用层自己维护的完整上下文；`response.choices[0].message` 只是模型本轮新生成的一条 assistant message。
+
+也就是说：
+
+```text
+messages = 你发给模型的 conversation so far
+response.choices[0].message = 模型这次新生成的一条 assistant message
+```
+
+API 不会在返回值里自动把原始 user 问题、历史 assistant 回复、tool result 全部打包回来。历史是否完整，取决于应用代码有没有把每一步正确 append 到 `messages`。
+
+### 第一次调用时到底发生什么？
+
+第一次调用前，通常是应用自己构造：
+
+```python
+messages = [
+    {
+        "role": "system",
+        "content": "You are a research assistant."
+    },
+    {
+        "role": "user",
+        "content": "Radio observations of recurrent novae"
+    }
+]
+```
+
+然后调用：
+
+```python
+response = client.chat.completions.create(
+    model=model,
+    messages=messages,
+    tools=functions,
+    tool_choice="auto",
+)
+```
+
+返回的不是：
+
+```python
+[
+    {"role": "user", "content": "..."},
+    {"role": "assistant", "content": "..."}
+]
+```
+
+而更像：
+
+```python
+response = {
+    "choices": [
+        {
+            "message": {
+                "role": "assistant",
+                "content": "...",
+                "tool_calls": None
+            }
+        }
+    ]
+}
+```
+
+所以 `response.choices[0].message` 不是完整聊天记录，只是新增的 assistant message。要让下一轮模型看到这条 assistant message，必须自己做：
+
+```python
+messages.append(response.choices[0].message)
+```
+
+append 后，本地的 `messages` 才变成：
+
+```python
+[
+    {"role": "system", "content": "..."},
+    {"role": "user", "content": "Radio observations of recurrent novae"},
+    {"role": "assistant", "content": "..."}
+]
+```
+
+### `choices` 和 `messages` 不是一回事
+
+这两个名字很容易误导：
+
+```text
+messages = 对话历史列表
+choices = 本次模型生成的候选答案列表
+```
+
+如果 API 返回：
+
+```python
+response.choices[0].message
+response.choices[1].message
+```
+
+它们通常表示两个候选 assistant response，而不是：
+
+```text
+choices[0] = user message
+choices[1] = assistant message
+```
+
+课程里通常只需要一个候选，所以取：
+
+```python
+msg = response.choices[0].message
+```
+
+### 各种 role 的本质含义
+
+可以把 `role` 理解成“这条消息是谁说的，以及它在协议里承担什么职责”。
+
+`system`
+
+```text
+系统 / 开发者给模型的高优先级行为约束。
+```
+
+例如：
+
+```python
+{"role": "system", "content": "You are a research assistant. Cite sources."}
+```
+
+它不是用户具体问题，而是给整个 workflow 定调：身份、语气、边界、格式、是否使用工具、是否引用来源。
+
+`user`
+
+```text
+用户或应用代表用户发给模型的新任务 / 新要求。
+```
+
+例如：
+
+```python
+{"role": "user", "content": "Radio observations of recurrent novae"}
+```
+
+如果用户没有追问，通常只有一条 `role="user"`。后续 agent 自己查资料、调用工具、生成报告，这些都不是新的 user message。
+
+但不是语法上只能有一个 user。多轮聊天里，用户每追问一次，应用就会追加一条新的 user message：
+
+```python
+[
+    {"role": "user", "content": "先查 recurrent novae"},
+    {"role": "assistant", "content": "这里是初步结果..."},
+    {"role": "user", "content": "再重点看 radio observations"}
+]
+```
+
+`assistant`
+
+```text
+模型本轮生成的输出。
+```
+
+普通聊天里，它可能是自然语言：
+
+```python
+{"role": "assistant", "content": "Here is the report..."}
+```
+
+tool calling 里，它也可能不是最终回答，而是工具调用请求：
+
+```python
+{
+    "role": "assistant",
+    "content": None,
+    "tool_calls": [
+        {
+            "id": "call_xxx",
+            "type": "function",
+            "function": {
+                "name": "arxiv_search_tool",
+                "arguments": "{\"query\": \"Radio observations of recurrent novae\"}"
+            }
+        }
+    ]
+}
+```
+
+所以要记住：assistant 不等于“最终答案”。assistant 的本质是“模型这一步产生了什么”。它可能是回答，也可能是 action request。
+
+`tool`
+
+```text
+应用层真正执行工具后，返回给模型的外部结果。
+```
+
+例如：
+
+```python
+{
+    "role": "tool",
+    "tool_call_id": "call_xxx",
+    "name": "arxiv_search_tool",
+    "content": "[{\"title\": \"...\", \"summary\": \"...\"}]"
+}
+```
+
+这条消息不是模型写的，而是 Python 代码、后端服务、数据库、搜索 API 等外部系统的结果。模型下一轮会读这条 tool message，再决定继续调用工具还是生成最终回答。
+
+### 单个用户问题下的消息流
+
+如果用户只问一次，后面没有追问，那么 `messages` 大概会像这样增长：
+
+```text
+system: 你是研究助手，要引用来源
+user: Radio observations of recurrent novae
+assistant: 我需要调用 arxiv_search_tool(...)
+tool: arxiv 返回论文列表
+assistant: 根据论文列表，生成研究报告
+```
+
+如果模型继续需要更多资料，可能是：
+
+```text
+system
+user
+assistant: call arxiv_search_tool(...)
+tool: arxiv results
+assistant: call tavily_search_tool(...)
+tool: web results
+assistant: final report
+```
+
+这里没有新的 `user`，因为用户没有提出新要求。中间的推进都是 agent 在完成同一个 user task。
+
+### 业务场景里的理解
+
+假设做一个数据分析 agent，用户问：
+
+```text
+帮我看一下上周新用户留存为什么下降。
+```
+
+第一版 `messages`：
+
+```python
+[
+    {"role": "system", "content": "You are a data analyst agent."},
+    {"role": "user", "content": "帮我看一下上周新用户留存为什么下降。"}
+]
+```
+
+模型可能返回一条 assistant tool call：
+
+```python
+{
+    "role": "assistant",
+    "content": None,
+    "tool_calls": [
+        {
+            "id": "call_1",
+            "function": {
+                "name": "lookup_table_schema",
+                "arguments": "{\"table_name\": \"user_retention\"}"
+            }
+        }
+    ]
+}
+```
+
+应用层 append 这条 assistant message，然后执行工具，把结果写回：
+
+```python
+{
+    "role": "tool",
+    "tool_call_id": "call_1",
+    "content": "{\"columns\": [\"dt\", \"channel\", \"new_users\", \"d1_retention_rate\"]}"
+}
+```
+
+下一轮模型看到完整历史，可能继续请求：
+
+```text
+assistant: call get_metric_definition("new_user_retention")
+tool: metric definition
+assistant: call run_sql_query(...)
+tool: query result
+assistant: final diagnosis
+```
+
+这时 `messages` 像一个分析过程账本：
+
+```text
+用户要解决什么业务问题
+模型判断先查什么
+工具返回了什么事实
+模型根据事实又做了什么下一步
+最终给出什么结论
+```
+
+对数据分析工作来说，这个账本非常重要。它不仅能让模型继续推理，也能让人 debug：到底是 metric 口径错了、SQL 错了、工具结果错了，还是最后解释错了。
+
+### 常见误区
+
+误区 1：以为 `response.choices[0].message` 包含完整历史。
+
+实际：它只是一条新 assistant message。完整历史在本地 `messages` 里。
+
+误区 2：以为 `choices` 是 user / assistant 对话列表。
+
+实际：`choices` 是本次生成的候选结果列表。通常 `choices[0]` 就够了。
+
+误区 3：以为没有自然语言 content 的 assistant message 没有用。
+
+实际：带 `tool_calls` 的 assistant message 非常关键，它记录了模型请求了哪个工具、参数是什么、`tool_call_id` 是什么。
+
+误区 4：只 append tool result，不 append assistant tool call。
+
+实际：下一轮模型会看到一个缺少前因后果的 tool message，不知道这个结果对应哪次工具请求。
+
+误区 5：把 tool call 当成工具已经执行。
+
+实际：tool call 只是模型提出请求；真正执行工具的是应用层代码。
+
+### Practice: 看 tool-calling 代码时先检查什么
+
+看到任何类似下面的代码：
+
+```python
+response = client.chat.completions.create(...)
+msg = response.choices[0].message
+messages.append(msg)
+```
+
+先问：
+
+1. `messages` 是在哪里初始化的？里面有没有 system / user？
+2. `response.choices[0].message` 有没有被 append 回本地历史？
+3. 如果有 `msg.tool_calls`，应用层有没有执行对应工具？
+4. tool result 有没有用 `role="tool"` 写回？
+5. tool result 有没有带正确的 `tool_call_id`？
+6. 下一次调用模型时，传入的是不是累计后的完整 `messages`？
+7. 如果用户没有追问，为什么后续没有新的 `role="user"`？
+8. 如果工具有副作用，是否有参数校验、权限控制、日志和人工确认？
+
+### 一句话总结
+
+`messages` 是应用维护的 agent 状态账本；`response.choices[0].message` 是模型本轮新写的一条 assistant 事件。单个用户问题下，通常只有一条 user message，后面是 assistant / tool / assistant 的循环。tool calling 的关键不是“模型会执行函数”，而是“模型提出结构化请求，应用执行工具，再把结果写回 messages，让模型继续推理”。
+
+---
+
 ## HTTP / URL / REST route: tool 背后到底怎么和后端说话？
 
 Date: 2026-07-07

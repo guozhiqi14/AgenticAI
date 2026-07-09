@@ -60,3 +60,21 @@
 - MCP resource 返回原始内容、摘要还是结构化 JSON，哪个更利于稳定回答？
 - 多个 MCP servers 同时可用时，如何评估 LLM 是否选对 server/tool/resource？
 - 内部 MCP server 的权限应该如何和员工身份、数据表权限、业务动作权限对齐？
+
+## Module 4
+
+- 数据分析 agent 的第一批 10 到 20 个 eval examples 应该从哪些真实任务抽样？
+- 哪些失败模式最适合先做 objective eval：SQL 执行失败、指标口径错误、字段缺失、图表格式，还是结论缺 evidence？
+- 对分析报告和图表，LLM-as-a-judge 的 rubric 应该拆成哪些 binary criteria？
+- 如果 eval metric 和我的人工判断冲突，应该优先调整 eval set、judge prompt，还是 workflow？
+- Eval set 多久扩充一次，才能避免系统只对旧样例过拟合？
+- End-to-end eval 分数下降时，如何快速定位应该转向哪个 component-level eval？
+- 数据分析 agent 的 trace/span 记录字段应该如何设计，才能既方便 debug 又不泄露敏感数据？
+- 当上游 schema lookup 错误导致 SQL 错误时，error analysis 应该如何归因？
+- Component 错误频率和修复成本如何量化，才能更客观地排优先级？
+- 数据分析 agent 的 error tags 应该允许多选到什么粒度，才能既真实又不难维护？
+- SQL generation 错误和 database/data quality 错误应该如何拆开评估？
+- 如果 final answer 写得不好，但上游 SQL/result 也有问题，component attribution 应该如何避免重复计数？
+- 数据分析 agent 应该先做哪个 component-level eval：schema retrieval、SQL generation、SQL execution validation，还是 chart spec generation？
+- Component-level eval 的局部指标要多高，才值得跑一次更贵的 end-to-end eval？
+- 如何避免 component-level metric 变好，但 end-to-end user experience 没有变好？
