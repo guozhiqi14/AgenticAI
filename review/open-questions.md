@@ -78,3 +78,16 @@
 - 数据分析 agent 应该先做哪个 component-level eval：schema retrieval、SQL generation、SQL execution validation，还是 chart spec generation？
 - Component-level eval 的局部指标要多高，才值得跑一次更贵的 end-to-end eval？
 - 如何避免 component-level metric 变好，但 end-to-end user experience 没有变好？
+- SQL generation 失败时，应该先加 few-shot examples，还是拆成 schema selection -> SQL draft -> SQL validation？
+- 对数据分析 agent，哪些 component 值得用强模型，哪些可以用更便宜/更快的小模型？
+- Prompt / model / tool config 应该如何版本化，才能和 eval results 绑定并支持回滚？
+- Fine-tuning 内部数据分析 agent 前，最小 eval set 和人工验收流程应该怎么设计？
+- 如果 split step 提升了准确率但显著增加 latency/cost，应该如何设定上线阈值？
+- 数据分析 agent 的 latency dashboard 应该优先看 average、p50、p95 还是 p99？
+- SQL warehouse cost、LLM token cost 和外部 API cost 应该如何统一到 per-run cost 视图？
+- 哪些 retrieval/search/fetch 步骤可以安全 parallelize，哪些必须等待上游结果？
+- 对低风险 component 使用 cheaper model routing 时，质量下降多少才算不可接受？
+- 对数据分析 agent，build/analyze 的节奏应该怎么安排：每次改动后分析，还是按固定周期集中分析？
+- Error taxonomy 到什么粒度最适合指导下一步 build effort？
+- Custom evals 应该优先覆盖最高频 failure mode，还是最高风险 failure mode？
+- 如何把 decision log、eval results 和 prompt/model/tool config 绑定起来，避免团队重复走回头路？

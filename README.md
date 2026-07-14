@@ -87,6 +87,9 @@ Module 4 已开始：
 - Error analysis and prioritizing next steps
 - More error analysis examples
 - Component-level evaluations
+- How to address problems you identify
+- Latency, cost optimization
+- Development process summary
 
 建议从这里开始：
 
@@ -102,6 +105,8 @@ Module 4 已开始：
 - [Agentic evals concept card](concepts/agentic-evals.md)
 - [Error analysis concept card](concepts/error-analysis.md)
 - [Component-level eval concept card](concepts/component-level-eval.md)
+- [Latency/cost optimization concept card](concepts/latency-cost-optimization.md)
+- [Agentic development loop concept card](concepts/agentic-development-loop.md)
 - [Tool use concept card](concepts/tool-use.md)
 - [Tool schema concept card](concepts/tool-schema.md)
 - [Code execution tool concept card](concepts/code-execution-tool.md)

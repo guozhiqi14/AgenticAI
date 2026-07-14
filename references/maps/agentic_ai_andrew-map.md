@@ -43,6 +43,9 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `notes/module-04-evals-and-optimization/02-error-analysis-and-prioritizing-next-steps.md` | `Module4/M4_README.md` | 课程页为主；用作后续 component-level eval lab 的 error-analysis checklist |
 | `notes/module-04-evals-and-optimization/03-more-error-analysis-examples.md` | `Module4/M4_README.md` | 课程页为主；补充 invoice/customer-email 的 component attribution 案例 |
 | `notes/module-04-evals-and-optimization/04-component-level-evaluations.md` | `Module4/M4_README.md` | 课程页为主；为后续 research workflow component-level eval lab 铺垫 |
+| `notes/module-04-evals-and-optimization/06-how-to-address-problems-you-identify.md` | `Lecture_notes/agentic_workflows_M4_learner.pdf` | 课程页 transcript 为主；lecture PDF 可辅助复习 non-LLM/LLM component 修法菜单 |
+| `notes/module-04-evals-and-optimization/07-latency-cost-optimization.md` | `Lecture_notes/agentic_workflows_M4_learner.pdf` | 课程页 transcript 为主；lecture PDF 可辅助复习 per-step timing/cost breakdown |
+| `notes/module-04-evals-and-optimization/08-development-process-summary.md` | `Lecture_notes/agentic_workflows_M4_learner.pdf` | 课程页 transcript 为主；lecture PDF 可辅助复习 build/analyze development loop |
 | `notes/zhiqi_notes.md` | `Module3/ungraded_labs/M3_UGL_1/`, `Module3/ungraded_labs/M3_UGL_2/` | 记录手动 tool-call loop、message history、REST route 和 backend mental model |
 
 ## Code Reading Path

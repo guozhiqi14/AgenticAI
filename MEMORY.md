@@ -70,12 +70,17 @@ Module 4 已开始：
 - `notes/module-04-evals-and-optimization/02-error-analysis-and-prioritizing-next-steps.md`
 - `notes/module-04-evals-and-optimization/03-more-error-analysis-examples.md`
 - `notes/module-04-evals-and-optimization/04-component-level-evaluations.md`
+- `notes/module-04-evals-and-optimization/06-how-to-address-problems-you-identify.md`
+- `notes/module-04-evals-and-optimization/07-latency-cost-optimization.md`
+- `notes/module-04-evals-and-optimization/08-development-process-summary.md`
 
 Module 4 当前核心概念卡：
 
 - `concepts/agentic-evals.md`
 - `concepts/error-analysis.md`
 - `concepts/component-level-eval.md`
+- `concepts/latency-cost-optimization.md`
+- `concepts/agentic-development-loop.md`
 
 横向个人笔记：
 
@@ -190,6 +195,8 @@ Then read:
 - Continue Module 2: Reflection Design Pattern.
 - Continue Module 3 quiz / graded lab if the user wants to close pending course items.
 - Continue Module 4: Evals and Optimization.
-- Next likely Module 4 item: `Ungraded Lab: Adding a component-level eval to the research workflow`.
+- Module 4 lab still pending: `Ungraded Lab: Adding a component-level eval to the research workflow`.
+- Next likely Module 4 item: `Module 4 quiz`.
+- Next likely video module after quiz: Module 5 `Planning workflows`.
 - Create first lab from upstream Module 1 research agent:
   - proposed path: `labs/001-research-agent-minimal/`

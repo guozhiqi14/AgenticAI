@@ -140,6 +140,34 @@ HTTP request 中表示动作的字段。常见 method 包括 `GET` 读取、`POS
 
 把多个互不依赖的子任务同时执行，比如同时生成多个搜索 query、同时 fetch 多个网页，或同时生成多个候选方案。
 
+## Latency
+
+用户或系统等待 workflow 完成的时间。Agentic workflow 的 latency 通常来自多个 component 的累计耗时，例如 LLM call、web search、web fetch、database query、code execution 和 final generation。
+
+## Cost Optimization
+
+降低 workflow 每次运行成本的过程。常见成本来源包括 LLM input/output tokens、外部 API call、compute/server runtime、warehouse query 和存储/带宽。
+
+## Per-Step Benchmark
+
+把 workflow 拆成多个 step，分别记录每一步的 latency、cost 和质量指标。它用于判断真正值得优化的 component，而不是凭感觉优化。
+
+## Critical Path
+
+决定整体 latency 的最长依赖路径。如果两个步骤可以并行，整体等待时间取决于较慢的那条路径；如果步骤必须串行，它们的耗时会累加。
+
+## Build / Analyze Loop
+
+构建 agentic workflow 时在“动手改系统”和“分析系统表现”之间来回切换的开发循环。Build 包括写代码、调 prompt、换模型、改工具；analyze 包括读 outputs/traces、做 eval、error analysis 和 component attribution。
+
+## Custom Eval
+
+为某个具体 agentic workflow、业务场景或 failure mode 定制的 eval。通用 monitoring 工具可以记录 traces、latency、cost，但 custom eval 才定义这个应用里什么算好、什么算错。
+
+## Observability
+
+让系统运行过程可观察的能力，包括 logging、traces、metrics、latency、cost、errors 和 intermediate outputs。Observability 帮助分析问题，但它本身不等于 eval。
+
 ## Modularity
 
 把 workflow 拆成可替换组件，每个组件有清晰的输入和输出。这样可以替换模型、搜索引擎、工具或 parser，而不用重写整个系统。
@@ -207,6 +235,24 @@ Prompt 中不提供示例，只给任务说明，让模型直接完成任务。
 ## One-Shot / Few-Shot Prompting
 
 在 prompt 中提供一个或多个 input-output 示例，让模型模仿示例格式或行为完成新任务。
+
+在修复 LLM component 时，few-shot examples 常用于明确边界、输出格式和容易混淆的判断标准。
+
+## Hyperparameter
+
+组件运行时可调、但不是模型自动学习出来的设置。例如 web search 的 result count/date range、RAG retrieval 的 similarity threshold/top-k/chunk size、ML detector 的 confidence threshold。
+
+## Model Selection
+
+为 workflow 的某个 step 选择更合适的模型。选择标准不只是整体 benchmark，还包括 instruction following、reasoning、extraction accuracy、tool use reliability、long-context handling、latency 和 cost。
+
+## Instruction Following
+
+模型遵守具体任务说明、格式要求和限制条件的能力。PII redaction、结构化输出、不要泄露敏感字段、严格按 JSON schema 返回，都是 instruction following 的典型考验。
+
+## Fine-Tuning
+
+用特定任务数据继续训练模型，让它更适合稳定、重复、分布清楚的任务。Fine-tuning 通常需要足够训练数据、baseline、eval set 和人工抽查，不适合作为发现问题后的第一反应。
 
 ## Reflection Criteria
 
