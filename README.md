@@ -19,7 +19,7 @@ git submodule update --init --recursive
 1. [MEMORY.md](MEMORY.md): 项目当前状态、设计决策、学习进度。
 2. [SOP.md](SOP.md): 你和 Codex 如何协作看课、记笔记、做 lab。
 3. [AGENTS.md](AGENTS.md): 给 Codex/其他 coding agent 的项目规则。
-4. [Module 4 notes](notes/module-04-evals-and-optimization/README.md): 当前课程主线进度。
+4. [Module 5 notes](notes/module-05-patterns-for-highly-autonomous-agents/README.md): 当前课程主线进度。
 5. [External reference map](references/maps/agentic_ai_andrew-map.md): 外部 GitHub 仓库和我们笔记的对应关系。
 
 ## 目录结构
@@ -55,7 +55,7 @@ git submodule update --init --recursive
 ## 当前进度
 
 Course: Agentic AI
-Current module: Module 4: Evals and Optimization
+Current module: Module 5: Patterns for Highly Autonomous Agents
 
 Module 1 已整理：
 
@@ -91,6 +91,12 @@ Module 4 已开始：
 - Latency, cost optimization
 - Development process summary
 
+Module 5 已开始：
+
+- Planning workflows
+- Creating and executing LLM plans
+- Planning with code execution
+
 建议从这里开始：
 
 - [MEMORY.md](MEMORY.md)
@@ -100,6 +106,7 @@ Module 4 已开始：
 - [Module 2 notes](notes/module-02-reflection-design-pattern/README.md)
 - [Module 3 notes](notes/module-03-tool-use/README.md)
 - [Module 4 notes](notes/module-04-evals-and-optimization/README.md)
+- [Module 5 notes](notes/module-05-patterns-for-highly-autonomous-agents/README.md)
 - [Zhiqi cross-cutting notes](notes/zhiqi_notes.md)
 - [Autonomy spectrum concept card](concepts/autonomy-spectrum.md)
 - [Agentic evals concept card](concepts/agentic-evals.md)
@@ -107,8 +114,9 @@ Module 4 已开始：
 - [Component-level eval concept card](concepts/component-level-eval.md)
 - [Latency/cost optimization concept card](concepts/latency-cost-optimization.md)
 - [Agentic development loop concept card](concepts/agentic-development-loop.md)
+- [Planning pattern concept card](concepts/planning-pattern.md)
+- [Code execution tool concept card](concepts/code-execution-tool.md)
 - [Tool use concept card](concepts/tool-use.md)
 - [Tool schema concept card](concepts/tool-schema.md)
-- [Code execution tool concept card](concepts/code-execution-tool.md)
 - [MCP concept card](concepts/model-context-protocol.md)
 - [External reference map](references/maps/agentic_ai_andrew-map.md)

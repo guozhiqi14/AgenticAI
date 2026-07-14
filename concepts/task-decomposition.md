@@ -24,6 +24,15 @@ Agentic workflow 的质量很大程度取决于任务拆得好不好。拆得好
 5. Add tools, APIs, retrieval, code execution, or human review where useful.
 6. Evaluate and iterate.
 
+## Design-Time vs Runtime Decomposition
+
+Task decomposition 可以发生在两个阶段：
+
+- Design-time decomposition: developer 在写 workflow 时预先固定步骤，适合稳定、可控、风险高的流程。
+- Runtime decomposition: LLM 在执行时根据当前请求生成步骤，也就是 Module 5 里的 planning pattern，适合请求空间更开放、工具组合顺序变化大的任务。
+
+Planning 的价值是灵活，代价是更难预测。因此 runtime decomposition 需要更强的 plan logging、step trace、guardrails 和 eval。
+
 ## Building Blocks
 
 | Building Block | Useful For |
@@ -54,4 +63,4 @@ Agentic workflow 的质量很大程度取决于任务拆得好不好。拆得好
 
 - [Task Decomposition lesson](../notes/module-01-introduction-to-agentic-workflows/06-task-decomposition-identifying-the-steps-in-a-workflow.md)
 - [Agentic application fit](agentic-application-fit.md)
-
+- [Planning pattern](planning-pattern.md)

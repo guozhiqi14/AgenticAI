@@ -91,3 +91,22 @@
 - Error taxonomy 到什么粒度最适合指导下一步 build effort？
 - Custom evals 应该优先覆盖最高频 failure mode，还是最高风险 failure mode？
 - 如何把 decision log、eval results 和 prompt/model/tool config 绑定起来，避免团队重复走回头路？
+
+## Module 5
+
+- Plan quality 应该如何评估：完整性、顺序合理性、工具选择、风险控制，还是最终结果？
+- 对数据分析 agent，哪些步骤应该保持 deterministic，哪些可以交给 planner 动态决定？
+- Planner 和 executor 应该使用同一个模型，还是分别选用更适合规划/执行的模型？
+- 如果 planner 生成错误 plan，应该先用 reflection 修 plan、重新规划，还是转人工审核？
+- Planning agent 如何避免过度调用工具，尤其是昂贵 SQL、外部 API 或有副作用的业务动作？
+- Plan schema 应该包含哪些字段，才能同时支持执行、debug、eval 和 human review？
+- 如何把 plan-level eval 和 end-to-end eval 结合，避免 plan 看起来合理但最终结果不好？
+- 对有副作用工具，human approval 应该放在 plan 生成后、每个 step 前，还是动作提交前？
+- Planner 输出 invalid JSON/XML 时，应该自动 repair 几轮，什么时候转人工或 fallback？
+- 对数据分析 agent，planner 应该直接输出 SQL，还是输出受控 query spec 再交给 SQL generator？
+- Plan schema 是否应该支持条件分支、循环和并行步骤？如果支持，executor 怎样限制失控风险？
+- 数据分析 agent 的 Python sandbox 最小权限应该包括哪些文件、包、网络和写入限制？
+- 如何评估 LLM 生成的 pandas 代码逻辑正确，而不只是运行成功？
+- 什么时候 code-as-plan 比 JSON plan 更好？什么时候反而应该坚持 JSON/tool schema？
+- Code execution 的 stdout、stderr、artifact 和中间表摘要应该如何返回，才能既可调试又不污染上下文？
+- 如果 code-as-plan 需要访问业务指标口径，应该让代码直接查 raw data，还是必须先经过 metric definition tool？

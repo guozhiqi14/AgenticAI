@@ -82,6 +82,21 @@ Module 4 当前核心概念卡：
 - `concepts/latency-cost-optimization.md`
 - `concepts/agentic-development-loop.md`
 
+Module 5 已开始：
+
+- `notes/module-05-patterns-for-highly-autonomous-agents/01-planning-workflows.md`
+- `notes/module-05-patterns-for-highly-autonomous-agents/02-creating-and-executing-llm-plans.md`
+- `notes/module-05-patterns-for-highly-autonomous-agents/03-planning-with-code-execution.md`
+
+Module 5 当前核心概念卡：
+
+- `concepts/planning-pattern.md`
+- `concepts/agentic-design-patterns.md`
+- `concepts/autonomy-spectrum.md`
+- `concepts/task-decomposition.md`
+- `concepts/tool-use.md`
+- `concepts/code-execution-tool.md`
+
 横向个人笔记：
 
 - `notes/zhiqi_notes.md`
@@ -126,6 +141,9 @@ references/maps/agentic_ai_andrew-map.md
 - Use `review/open-questions.md` for unresolved questions.
 - Use `review/glossary.md` for terms that recur across lessons.
 - Update module README checklists as lessons are completed.
+- Treat planning notes as higher-autonomy workflow material: connect them back to tool use, evals, traces, and guardrails.
+- For executable plans, prefer structured JSON/XML plan schemas over transcript-like plain text; note parser/validator/executor boundaries.
+- For code-as-plan lessons, connect back to pandas/data-analysis use cases but keep sandbox, permissions, timeout, trace, and eval boundaries explicit.
 
 ## Default Lesson Note Shape
 
@@ -194,9 +212,10 @@ Then read:
   - research agent code example
 - Continue Module 2: Reflection Design Pattern.
 - Continue Module 3 quiz / graded lab if the user wants to close pending course items.
-- Continue Module 4: Evals and Optimization.
-- Module 4 lab still pending: `Ungraded Lab: Adding a component-level eval to the research workflow`.
-- Next likely Module 4 item: `Module 4 quiz`.
-- Next likely video module after quiz: Module 5 `Planning workflows`.
+- Continue Module 4 pending items only when needed:
+  - `Ungraded Lab: Adding a component-level eval to the research workflow`
+  - `Module 4 quiz`
+- Continue Module 5: Patterns for Highly Autonomous Agents.
+- Next likely Module 5 video: `Multi-agentic workflows`.
 - Create first lab from upstream Module 1 research agent:
   - proposed path: `labs/001-research-agent-minimal/`

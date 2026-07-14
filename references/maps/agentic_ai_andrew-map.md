@@ -20,7 +20,7 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `Module2/` | Reflection design pattern notebooks and labs | 学 Module 2 时对照 reflection 笔记和 lab |
 | `Module3/` | Tool use design pattern, function calling, research tools | 学 tool use 时对照工具定义和调用方式 |
 | `Module4/` | Evals and practical tips | 学 evals 时回补 `concepts/agentic-evals.md` |
-| `Module5/` | Multi-agent collaboration and final project | 学 multi-agent 时做架构参考 |
+| `Module5/` | Planning, customer-service tools, multi-agent collaboration, final project | 学 planning/multi-agent 时做架构参考；保持 read-only |
 
 ## Map To Our Notes
 
@@ -46,6 +46,9 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `notes/module-04-evals-and-optimization/06-how-to-address-problems-you-identify.md` | `Lecture_notes/agentic_workflows_M4_learner.pdf` | 课程页 transcript 为主；lecture PDF 可辅助复习 non-LLM/LLM component 修法菜单 |
 | `notes/module-04-evals-and-optimization/07-latency-cost-optimization.md` | `Lecture_notes/agentic_workflows_M4_learner.pdf` | 课程页 transcript 为主；lecture PDF 可辅助复习 per-step timing/cost breakdown |
 | `notes/module-04-evals-and-optimization/08-development-process-summary.md` | `Lecture_notes/agentic_workflows_M4_learner.pdf` | 课程页 transcript 为主；lecture PDF 可辅助复习 build/analyze development loop |
+| `notes/module-05-patterns-for-highly-autonomous-agents/01-planning-workflows.md` | `Lecture_notes/agentic_workflows_M5_learner.pdf`, `Module5/M5_README.md`, `Module5/ungraded_labs/M5_UGL_1/` | 课程页 transcript 为主；upstream sunglasses/customer-service lab 可作为 planning + tool-use 实验参考 |
+| `notes/module-05-patterns-for-highly-autonomous-agents/02-creating-and-executing-llm-plans.md` | `Lecture_notes/agentic_workflows_M5_learner.pdf`, `Module5/ungraded_labs/M5_UGL_1/` | 课程页 transcript 为主；后续读 customer-service lab 时重点看 plan schema、tool arguments 和 executor loop |
+| `notes/module-05-patterns-for-highly-autonomous-agents/03-planning-with-code-execution.md` | `Lecture_notes/agentic_workflows_M5_learner.pdf`, `Module5/ungraded_labs/M5_UGL_2/` | 课程页 transcript 为主；后续读 planning-with-code lab 时重点看 generated code、sandbox 和 execution feedback |
 | `notes/zhiqi_notes.md` | `Module3/ungraded_labs/M3_UGL_1/`, `Module3/ungraded_labs/M3_UGL_2/` | 记录手动 tool-call loop、message history、REST route 和 backend mental model |
 
 ## Code Reading Path
@@ -71,13 +74,16 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `labs/002-reflection-loop/` | `Module2/` | 复现 reflection: draft -> critique -> revise |
 | `labs/003-tool-use-minimal/` | `Module3/` | 练习 function calling / tool schema |
 | `labs/004-agent-evals/` | `Module4/` | 建 objective eval + LLM-as-judge 对照 |
-| `labs/005-multi-agent-pipeline/` | `Module5/` | 做一个小型多角色 pipeline |
+| `labs/005-planning-customer-service/` | `Module5/ungraded_labs/M5_UGL_1/` | 做一个 sunglasses/customer-service planning workflow 最小复现 |
+| `labs/006-planning-code-execution/` | `Module5/ungraded_labs/M5_UGL_2/` | 做一个 CSV/pandas sandbox 版 code-as-plan 最小复现 |
+| `labs/007-multi-agent-pipeline/` | `Module5/` | 做一个小型多角色 pipeline |
 
 ## Reading Notes
 
 - Upstream README 把 Module 1 描述为 planning/research agent，这和我们 Module 1 的 introduction notes 可以互相补充。
-- Upstream 的 Module 2/3/5 对应课程后续 design patterns，暂时不急着读透。
+- Upstream 的 Module 2/3 仍主要作为 reflection/tool-use 对照材料；Module 5 从 planning 开始，按课程进度逐步读对应 lab。
 - 当前课程页的 Module 4 是 evals / error analysis / optimization 主线；本地 upstream `Module4/M4_README.md` 内容较稀疏且不完全对齐，先以课程页面和自己的笔记为主，等做 component-level eval lab 时再决定是否借用 upstream。
+- Module 5 已进入 planning / highly autonomous agents 主线；优先以课程页 transcript 为主，后续做 customer-service planning lab 时再读 `Module5/ungraded_labs/M5_UGL_1/` 和 `Module5/ungraded_labs/M5_UGL_2/`。
 
 ## Maintenance
 

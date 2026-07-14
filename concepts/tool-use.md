@@ -56,6 +56,12 @@ argument types / examples
 | Hard-coded tool call | Developer | 可控、稳定、容易 eval | 不够灵活 |
 | LLM-selected tool use | LLM | 灵活、能适配不同请求 | 可能选错工具、传错参数、漏用工具 |
 
+## Tool Use With Planning
+
+Planning pattern 可以看成 tool use 的高 autonomy 版本：LLM 不只决定“要不要调用某个工具”，还会先生成一个多步骤计划，再按计划决定工具调用顺序。
+
+这适合 sunglasses customer service、email assistant、coding agent 和数据分析 agent 这类开放任务。但工具越多、步骤越动态，越需要 plan trace、tool-call eval 和 human approval for risky actions。
+
 ## Common Tool Types
 
 | Tool Type | Example |
@@ -142,3 +148,4 @@ Tool use 的稳定性很大程度取决于 argument design：
 - [External feedback](external-feedback.md)
 - [Task decomposition](task-decomposition.md)
 - [Agentic design patterns](agentic-design-patterns.md)
+- [Planning pattern](planning-pattern.md)
