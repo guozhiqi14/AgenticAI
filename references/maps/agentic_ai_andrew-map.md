@@ -50,6 +50,7 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `notes/module-05-patterns-for-highly-autonomous-agents/02-creating-and-executing-llm-plans.md` | `Lecture_notes/agentic_workflows_M5_learner.pdf`, `Module5/ungraded_labs/M5_UGL_1/` | 课程页 transcript 为主；后续读 customer-service lab 时重点看 plan schema、tool arguments 和 executor loop |
 | `notes/module-05-patterns-for-highly-autonomous-agents/03-planning-with-code-execution.md` | `Lecture_notes/agentic_workflows_M5_learner.pdf`, `Module5/ungraded_labs/M5_UGL_2/` | 课程页 transcript 为主；后续读 planning-with-code lab 时重点看 generated code、sandbox 和 execution feedback |
 | `notes/module-05-patterns-for-highly-autonomous-agents/05-multi-agentic-workflows.md` | `Lecture_notes/agentic_workflows_M5_learner.pdf`, `Module5/M5_README.md`, `Module5/graded_labs/research-agent/GL-M5.ipynb` | 课程页 transcript 为主；后续读 market/research-team lab 时重点看 role prompts、agent handoff 和 manager coordination |
+| `notes/module-05-patterns-for-highly-autonomous-agents/07-communication-patterns-for-multi-agent-systems.md` | `Lecture_notes/agentic_workflows_M5_learner.pdf`, `Module5/graded_labs/research-agent/GL-M5.ipynb` | 课程页 transcript 为主；读 research-agent lab 时重点观察 linear、manager hierarchy 或 deeper hierarchy 的实际落点 |
 | `notes/zhiqi_notes.md` | `Module3/ungraded_labs/M3_UGL_1/`, `Module3/ungraded_labs/M3_UGL_2/` | 记录手动 tool-call loop、message history、REST route 和 backend mental model |
 
 ## Code Reading Path
@@ -77,14 +78,14 @@ Source: `references/upstream/agentic_ai_andrew/`
 | `labs/004-agent-evals/` | `Module4/` | 建 objective eval + LLM-as-judge 对照 |
 | `labs/005-planning-customer-service/` | `Module5/ungraded_labs/M5_UGL_1/` | 做一个 sunglasses/customer-service planning workflow 最小复现 |
 | `labs/006-planning-code-execution/` | `Module5/ungraded_labs/M5_UGL_2/` | 做一个 CSV/pandas sandbox 版 code-as-plan 最小复现 |
-| `labs/007-multi-agent-pipeline/` | `Module5/graded_labs/research-agent/GL-M5.ipynb` | 做一个小型多角色 pipeline，练习 researcher/writer/editor/manager 角色拆分 |
+| `labs/007-multi-agent-pipeline/` | `Module5/graded_labs/research-agent/GL-M5.ipynb` | 做一个小型多角色 pipeline，练习 researcher/writer/editor/manager 角色拆分和 communication pattern 选择 |
 
 ## Reading Notes
 
 - Upstream README 把 Module 1 描述为 planning/research agent，这和我们 Module 1 的 introduction notes 可以互相补充。
 - Upstream 的 Module 2/3 仍主要作为 reflection/tool-use 对照材料；Module 5 从 planning 开始，按课程进度逐步读对应 lab。
 - 当前课程页的 Module 4 是 evals / error analysis / optimization 主线；本地 upstream `Module4/M4_README.md` 内容较稀疏且不完全对齐，先以课程页面和自己的笔记为主，等做 component-level eval lab 时再决定是否借用 upstream。
-- Module 5 已进入 planning / multi-agent 主线；优先以课程页 transcript 为主，后续做 customer-service planning lab 时再读 `Module5/ungraded_labs/M5_UGL_1/`，做 code-as-plan 时读 `Module5/ungraded_labs/M5_UGL_2/`，做 multi-agent pipeline 时读 `Module5/graded_labs/research-agent/GL-M5.ipynb`。
+- Module 5 已进入 planning / multi-agent 主线；优先以课程页 transcript 为主，后续做 customer-service planning lab 时再读 `Module5/ungraded_labs/M5_UGL_1/`，做 code-as-plan 时读 `Module5/ungraded_labs/M5_UGL_2/`，做 multi-agent pipeline 时读 `Module5/graded_labs/research-agent/GL-M5.ipynb`，同时标注采用的是 linear、manager hierarchy、deeper hierarchy 还是 all-to-all。
 
 ## Maintenance
 

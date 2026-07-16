@@ -8,7 +8,7 @@
 - [ ] 04 - Ungraded Lab: Customer Service Agent Code Example
 - [x] 05 - Multi-agentic workflows
 - [ ] 06 - Ungraded Lab: Market Research Team Code Example
-- [ ] 07 - Communication patterns for multi-agent systems
+- [x] 07 - Communication patterns for multi-agent systems
 - [ ] 08 - Module 5 quiz
 - [ ] 09 - M5 Graded Assignment: Agentic Workflows
 - [ ] 10 - Conclusion
@@ -28,6 +28,8 @@
 - Highly agentic coding systems 已经比较成功地使用 planning；其他领域仍在探索如何稳定落地。
 - Multi-agent workflow 把复杂任务拆成多个角色明确的 agents，例如 researcher、designer、writer、editor 或 manager。
 - Multi-agent 的关键不是 agent 数量，而是 role boundary、tool permission、communication pattern 和 per-agent eval。
+- Multi-agent communication pattern 决定谁和谁通信、上下文如何流动、谁负责整合、什么时候停止。
+- 常见通信模式包括 linear handoff、manager hierarchy、deeper hierarchy 和 all-to-all；越灵活越难 debug 和 eval。
 - 后续 multi-agent workflow 会继续提升 autonomy，但也会引入更高的协调、调试和评估成本。
 
 ## Notes
@@ -36,6 +38,7 @@
 - [02 - Creating and executing LLM plans](02-creating-and-executing-llm-plans.md)
 - [03 - Planning with code execution](03-planning-with-code-execution.md)
 - [05 - Multi-agentic workflows](05-multi-agentic-workflows.md)
+- [07 - Communication patterns for multi-agent systems](07-communication-patterns-for-multi-agent-systems.md)
 
 ## Cross-Cutting Notes
 
@@ -46,4 +49,5 @@
 - [Tool use](../../concepts/tool-use.md): planning 通常通过工具调用落地。
 - [Code execution tool](../../concepts/code-execution-tool.md): code-as-plan、sandbox、execution feedback。
 - [Multi-agent collaboration](../../concepts/multi-agent-collaboration.md): role decomposition、linear workflow、manager agent。
+- [Multi-agent communication patterns](../../concepts/multi-agent-communication-patterns.md): linear、hierarchical、deeper hierarchy、all-to-all。
 - [Open questions](../../review/open-questions.md): plan quality、runtime control、planning eval。

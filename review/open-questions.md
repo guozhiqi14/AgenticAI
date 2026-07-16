@@ -116,3 +116,7 @@
 - Multi-agent trace 应该如何展示，才能定位是哪个 agent 或哪段 communication 出错？
 - 对数据分析 agent，哪些角色值得真的拆成 agent，哪些只是 workflow step？
 - Multi-agent workflow 的通信模式应该先从 linear handoff 开始，还是直接引入 coordinator/manager？
+- 如何为 multi-agent workflow 选择 linear、manager hierarchy、deeper hierarchy 或 all-to-all？
+- All-to-all communication 的 stopping condition 应该如何设计，才能避免无限讨论或过早收敛？
+- Multi-agent message trace 应该怎样记录 sender、receiver、artifact 和决策理由？
+- 数据分析 agent 中哪些 handoff 必须结构化，哪些可以保留自然语言？

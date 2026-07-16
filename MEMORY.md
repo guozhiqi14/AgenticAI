@@ -88,6 +88,7 @@ Module 5 已开始：
 - `notes/module-05-patterns-for-highly-autonomous-agents/02-creating-and-executing-llm-plans.md`
 - `notes/module-05-patterns-for-highly-autonomous-agents/03-planning-with-code-execution.md`
 - `notes/module-05-patterns-for-highly-autonomous-agents/05-multi-agentic-workflows.md`
+- `notes/module-05-patterns-for-highly-autonomous-agents/07-communication-patterns-for-multi-agent-systems.md`
 
 Module 5 当前核心概念卡：
 
@@ -98,6 +99,7 @@ Module 5 当前核心概念卡：
 - `concepts/tool-use.md`
 - `concepts/code-execution-tool.md`
 - `concepts/multi-agent-collaboration.md`
+- `concepts/multi-agent-communication-patterns.md`
 
 横向个人笔记：
 
@@ -147,6 +149,7 @@ references/maps/agentic_ai_andrew-map.md
 - For executable plans, prefer structured JSON/XML plan schemas over transcript-like plain text; note parser/validator/executor boundaries.
 - For code-as-plan lessons, connect back to pandas/data-analysis use cases but keep sandbox, permissions, timeout, trace, and eval boundaries explicit.
 - For multi-agent notes, emphasize role decomposition, per-agent tool permissions, communication patterns, traceability, and per-agent eval; do not present multi-agent as automatically better than single-agent planning.
+- For multi-agent communication notes, start from linear or single-manager hierarchy as the practical default; treat deeper hierarchy and all-to-all as higher-flexibility but higher-chaos patterns requiring strict trace, limits, and stop conditions.
 
 ## Default Lesson Note Shape
 
@@ -219,7 +222,8 @@ Then read:
   - `Ungraded Lab: Adding a component-level eval to the research workflow`
   - `Module 4 quiz`
 - Continue Module 5: Patterns for Highly Autonomous Agents.
-- Next likely Module 5 item: `Ungraded Lab: Market Research Team Code Example`.
-- Next likely Module 5 video after the lab: `Communication patterns for multi-agent systems`.
+- Next likely Module 5 item: `Module 5 quiz`.
+- Next likely Module 5 code item: `M5 Graded Assignment - Agentic Workflows`.
+- Next likely final course video: `Conclusion`.
 - Create first lab from upstream Module 1 research agent:
   - proposed path: `labs/001-research-agent-minimal/`

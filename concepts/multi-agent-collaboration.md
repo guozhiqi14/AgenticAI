@@ -30,6 +30,8 @@ manager:
 
 线性模式更简单，适合固定顺序任务。Manager 模式更灵活，适合需要动态委派、整合和 review 的任务。
 
+更完整地看，multi-agent system 的通信模式还包括 deeper hierarchy 和 all-to-all。通信模式决定上下文如何流动、谁负责整合、什么时候停止，也决定系统是否容易 debug 和 eval。
+
 ## Agents As Tools
 
 Manager-agent workflow 可以看成 planning pattern 的升级版：
@@ -81,6 +83,7 @@ Role boundary 越清楚，multi-agent workflow 越容易调试。
 - Blame ambiguity: final output 错了，但不知道是哪个 agent 造成。
 - Manager error: manager 委派错误或漏掉关键 specialist。
 - Tool permission drift: 每个 agent 都拿到过多工具，风险扩大。
+- Communication chaos: all-to-all 或过深 hierarchy 让 agents 互相通信但难以收敛。
 
 ## Practical Rule
 
@@ -93,6 +96,8 @@ Role boundary 越清楚，multi-agent workflow 越容易调试。
 ## Related Notes
 
 - [Multi-agentic workflows](../notes/module-05-patterns-for-highly-autonomous-agents/05-multi-agentic-workflows.md)
+- [Communication patterns for multi-agent systems](../notes/module-05-patterns-for-highly-autonomous-agents/07-communication-patterns-for-multi-agent-systems.md)
+- [Multi-agent communication patterns](multi-agent-communication-patterns.md)
 - [Agentic design patterns](agentic-design-patterns.md)
 - [Planning pattern](planning-pattern.md)
 - [Task decomposition](task-decomposition.md)

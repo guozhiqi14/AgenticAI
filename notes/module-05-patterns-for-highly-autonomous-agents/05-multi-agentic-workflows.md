@@ -198,16 +198,18 @@ planning with agents:
 ## Related
 
 - [Planning workflows](01-planning-workflows.md)
+- [Communication patterns for multi-agent systems](07-communication-patterns-for-multi-agent-systems.md)
 - [Planning pattern](../../concepts/planning-pattern.md)
 - [Agentic design patterns](../../concepts/agentic-design-patterns.md)
 - [Task decomposition](../../concepts/task-decomposition.md)
 - [Tool use](../../concepts/tool-use.md)
 - [Agentic evals](../../concepts/agentic-evals.md)
 - [Multi-agent collaboration](../../concepts/multi-agent-collaboration.md)
+- [Multi-agent communication patterns](../../concepts/multi-agent-communication-patterns.md)
 
 ## Next Actions
 
 - [x] 更新 Module 5 README / summary。
 - [x] 新增 multi-agent collaboration 概念卡。
 - [x] 增加 glossary / open questions。
-- [ ] 下一节继续看 `Communication patterns for multi-agent systems`，重点整理 linear、manager/coordinator、group chat 等通信模式。
+- [x] 已继续看 `Communication patterns for multi-agent systems`，整理 linear、hierarchical、deeper hierarchy、all-to-all 等通信模式。
