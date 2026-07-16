@@ -6,7 +6,7 @@
 - [x] 02 - Creating and executing LLM plans
 - [x] 03 - Planning with code execution
 - [ ] 04 - Ungraded Lab: Customer Service Agent Code Example
-- [ ] 05 - Multi-agentic workflows
+- [x] 05 - Multi-agentic workflows
 - [ ] 06 - Ungraded Lab: Market Research Team Code Example
 - [ ] 07 - Communication patterns for multi-agent systems
 - [ ] 08 - Module 5 quiz
@@ -26,6 +26,8 @@
 - Code-as-plan 尤其适合数据表、CSV、pandas、文件处理和计算类任务，但必须配套 sandbox。
 - Planning 增强了灵活性，但也降低了可控性：developer 不一定提前知道 runtime 会生成什么 plan。
 - Highly agentic coding systems 已经比较成功地使用 planning；其他领域仍在探索如何稳定落地。
+- Multi-agent workflow 把复杂任务拆成多个角色明确的 agents，例如 researcher、designer、writer、editor 或 manager。
+- Multi-agent 的关键不是 agent 数量，而是 role boundary、tool permission、communication pattern 和 per-agent eval。
 - 后续 multi-agent workflow 会继续提升 autonomy，但也会引入更高的协调、调试和评估成本。
 
 ## Notes
@@ -33,6 +35,7 @@
 - [01 - Planning workflows](01-planning-workflows.md)
 - [02 - Creating and executing LLM plans](02-creating-and-executing-llm-plans.md)
 - [03 - Planning with code execution](03-planning-with-code-execution.md)
+- [05 - Multi-agentic workflows](05-multi-agentic-workflows.md)
 
 ## Cross-Cutting Notes
 
@@ -42,4 +45,5 @@
 - [Task decomposition](../../concepts/task-decomposition.md): planning 可以看成 runtime task decomposition。
 - [Tool use](../../concepts/tool-use.md): planning 通常通过工具调用落地。
 - [Code execution tool](../../concepts/code-execution-tool.md): code-as-plan、sandbox、execution feedback。
+- [Multi-agent collaboration](../../concepts/multi-agent-collaboration.md): role decomposition、linear workflow、manager agent。
 - [Open questions](../../review/open-questions.md): plan quality、runtime control、planning eval。

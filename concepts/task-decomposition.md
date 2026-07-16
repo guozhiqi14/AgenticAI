@@ -33,6 +33,15 @@ Task decomposition 可以发生在两个阶段：
 
 Planning 的价值是灵活，代价是更难预测。因此 runtime decomposition 需要更强的 plan logging、step trace、guardrails 和 eval。
 
+## Step Decomposition vs Role Decomposition
+
+Task decomposition 不只可以拆步骤，也可以拆角色。
+
+- Step decomposition: 把任务拆成一串步骤，例如 retrieve -> analyze -> write。
+- Role decomposition: 把任务拆给不同 agents，例如 researcher -> statistician -> writer -> editor。
+
+Multi-agent workflow 更接近 role decomposition。它适合现实任务天然对应多个专业角色、不同角色需要不同工具权限、并且每个角色可以单独评估的场景。
+
 ## Building Blocks
 
 | Building Block | Useful For |
@@ -64,3 +73,4 @@ Planning 的价值是灵活，代价是更难预测。因此 runtime decompositi
 - [Task Decomposition lesson](../notes/module-01-introduction-to-agentic-workflows/06-task-decomposition-identifying-the-steps-in-a-workflow.md)
 - [Agentic application fit](agentic-application-fit.md)
 - [Planning pattern](planning-pattern.md)
+- [Multi-agent collaboration](multi-agent-collaboration.md)

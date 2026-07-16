@@ -110,3 +110,9 @@
 - 什么时候 code-as-plan 比 JSON plan 更好？什么时候反而应该坚持 JSON/tool schema？
 - Code execution 的 stdout、stderr、artifact 和中间表摘要应该如何返回，才能既可调试又不污染上下文？
 - 如果 code-as-plan 需要访问业务指标口径，应该让代码直接查 raw data，还是必须先经过 metric definition tool？
+- 什么情况下应该从 single-agent planning 升级到 multi-agent workflow？
+- Specialist agent 的 role boundary、tools 和 output contract 应该怎样设计，才能支持复用？
+- Manager agent 的委派质量应该怎么 eval？
+- Multi-agent trace 应该如何展示，才能定位是哪个 agent 或哪段 communication 出错？
+- 对数据分析 agent，哪些角色值得真的拆成 agent，哪些只是 workflow step？
+- Multi-agent workflow 的通信模式应该先从 linear handoff 开始，还是直接引入 coordinator/manager？

@@ -96,6 +96,7 @@ Module 5 已开始：
 - Planning workflows
 - Creating and executing LLM plans
 - Planning with code execution
+- Multi-agentic workflows
 
 建议从这里开始：
 
@@ -115,6 +116,7 @@ Module 5 已开始：
 - [Latency/cost optimization concept card](concepts/latency-cost-optimization.md)
 - [Agentic development loop concept card](concepts/agentic-development-loop.md)
 - [Planning pattern concept card](concepts/planning-pattern.md)
+- [Multi-agent collaboration concept card](concepts/multi-agent-collaboration.md)
 - [Code execution tool concept card](concepts/code-execution-tool.md)
 - [Tool use concept card](concepts/tool-use.md)
 - [Tool schema concept card](concepts/tool-schema.md)

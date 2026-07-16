@@ -87,6 +87,7 @@ Module 5 已开始：
 - `notes/module-05-patterns-for-highly-autonomous-agents/01-planning-workflows.md`
 - `notes/module-05-patterns-for-highly-autonomous-agents/02-creating-and-executing-llm-plans.md`
 - `notes/module-05-patterns-for-highly-autonomous-agents/03-planning-with-code-execution.md`
+- `notes/module-05-patterns-for-highly-autonomous-agents/05-multi-agentic-workflows.md`
 
 Module 5 当前核心概念卡：
 
@@ -96,6 +97,7 @@ Module 5 当前核心概念卡：
 - `concepts/task-decomposition.md`
 - `concepts/tool-use.md`
 - `concepts/code-execution-tool.md`
+- `concepts/multi-agent-collaboration.md`
 
 横向个人笔记：
 
@@ -144,6 +146,7 @@ references/maps/agentic_ai_andrew-map.md
 - Treat planning notes as higher-autonomy workflow material: connect them back to tool use, evals, traces, and guardrails.
 - For executable plans, prefer structured JSON/XML plan schemas over transcript-like plain text; note parser/validator/executor boundaries.
 - For code-as-plan lessons, connect back to pandas/data-analysis use cases but keep sandbox, permissions, timeout, trace, and eval boundaries explicit.
+- For multi-agent notes, emphasize role decomposition, per-agent tool permissions, communication patterns, traceability, and per-agent eval; do not present multi-agent as automatically better than single-agent planning.
 
 ## Default Lesson Note Shape
 
@@ -216,6 +219,7 @@ Then read:
   - `Ungraded Lab: Adding a component-level eval to the research workflow`
   - `Module 4 quiz`
 - Continue Module 5: Patterns for Highly Autonomous Agents.
-- Next likely Module 5 video: `Multi-agentic workflows`.
+- Next likely Module 5 item: `Ungraded Lab: Market Research Team Code Example`.
+- Next likely Module 5 video after the lab: `Communication patterns for multi-agent systems`.
 - Create first lab from upstream Module 1 research agent:
   - proposed path: `labs/001-research-agent-minimal/`
