@@ -1378,3 +1378,796 @@ Python tool 通过 HTTP request 调后端 API。
 ### 一句话总结
 
 HTTP 是客户端和服务器之间的通用通信规则。URL 告诉服务器要操作哪个资源，HTTP method 告诉服务器要做什么动作，request 带着必要信息发出去，response 带着结果返回。`Each tool wraps a REST route` 的意思是：LLM 调用的 Python tool 背后，其实是在通过 HTTP 请求调用某个后端 API route，让 agent 能间接操作真实业务系统。
+
+---
+
+## Module 5 Research Agent: executor 如何调度 sub-agent？
+
+Date: 2026-07-17
+Context: Module 5 Graded Lab: Research Agent / Multi-agent Workflow
+Source notebook: `references/upstream/agentic_ai_andrew/Module5/graded_labs/research-agent/GL-M5.ipynb`
+Related file: `references/upstream/agentic_ai_andrew/Module5/graded_labs/research-agent/research_tools.py`
+
+### 我当时的困惑
+
+这个 notebook 里有 `planner_agent`、`research_agent`、`writer_agent`、`editor_agent` 和 `executor_agent`。
+
+一开始容易误解的是：
+
+- sub-agent 是不是像 tool 一样被模型直接调用？
+- `executor_agent` 里面看起来只是 `history.append(...)`，那它到底在哪里真正执行了 sub-agent？
+- `research_agent` 查到的内容是 paper 全文，还是只是摘要和链接？
+- 如果只是摘要，writer_agent 是怎么拿到这些信息的？
+- agent 之间到底有没有互相发 message？
+
+### 先给结论
+
+这个 lab 里的 sub-agent 不是 OpenAI function calling 意义上的 tool。它们本质上是普通 Python 函数：
+
+```python
+def research_agent(task: str, ...):
+    ...
+
+def writer_agent(task: str, ...):
+    ...
+
+def editor_agent(task: str, ...):
+    ...
+```
+
+真正让它们能被调度的是一个 Python dict：
+
+```python
+agent_registry = {
+    "research_agent": research_agent,
+    "editor_agent": editor_agent,
+    "writer_agent": writer_agent,
+}
+```
+
+executor 的真实调用发生在这一行：
+
+```python
+output = agent_registry[agent_name](enriched_task)
+```
+
+如果 `agent_name == "research_agent"`，这行就等价于：
+
+```python
+output = research_agent(enriched_task)
+```
+
+所以：
+
+```text
+sub-agent 是被 executor 当 Python function 调用的。
+tool 是被 research_agent 内部的 LLM/tool loop 调用的。
+history 不是执行器本身，而是跨 agent 的上下文传递介质。
+```
+
+### 整体架构
+
+这个 notebook 的 end-to-end 结构可以理解成：
+
+```text
+topic
+  -> planner_agent 生成 plan steps
+  -> executor_agent 逐步执行每个 step
+      -> LLM router 判断该交给哪个 sub-agent
+      -> Python registry 调用对应 sub-agent 函数
+      -> sub-agent 内部再调用 LLM
+      -> research_agent 可以进一步使用 tools
+      -> output 被 append 到 history
+  -> 最后一步 output 被当成 Markdown report 显示
+```
+
+更具体一点：
+
+```text
+executor_agent
+  -> agent_registry["research_agent"](enriched_task)
+      -> research_agent(...)
+          -> client.chat.completions.create(..., tools=[...])
+              -> arxiv_search_tool(...)
+              -> tavily_search_tool(...)
+              -> wikipedia_search_tool(...)
+          -> return research summary
+  -> history.append((step, "research_agent", output))
+```
+
+而 `writer_agent` / `editor_agent` 没有工具，链路更短：
+
+```text
+executor_agent
+  -> writer_agent(enriched_task)
+      -> LLM writes based on provided context
+      -> return text
+  -> history.append(...)
+```
+
+### 一个具体 end-to-end 例子
+
+假设用户给的 topic 是：
+
+```text
+The ensemble Kalman filter for time series forecasting
+```
+
+`planner_agent(topic)` 可能返回一个 plan：
+
+```python
+[
+    "Search for key academic papers on ensemble Kalman filter for time series forecasting.",
+    "Summarize the main methods and applications from the gathered sources.",
+    "Draft a structured technical research report.",
+    "Critique the draft for clarity, structure, and missing citations.",
+    "Generate a final Markdown document with the complete research report."
+]
+```
+
+接下来调用：
+
+```python
+executor_history = executor_agent(steps)
+```
+
+### Step 1: executor 先做 routing，不直接做研究
+
+第一步 instruction 是：
+
+```text
+Search for key academic papers on ensemble Kalman filter for time series forecasting.
+```
+
+`executor_agent` 不会自己搜索。它先问一次 LLM：
+
+```text
+Given the following instruction, identify which agent should perform it and extract the clean task.
+
+Return only a valid JSON object with two keys:
+- "agent": one of ["research_agent", "editor_agent", "writer_agent"]
+- "task": a string with the instruction that the agent should follow
+```
+
+LLM 可能返回：
+
+```json
+{
+  "agent": "research_agent",
+  "task": "Search arXiv, Wikipedia, and the web for key sources on ensemble Kalman filter for time series forecasting."
+}
+```
+
+然后 executor 解析 JSON：
+
+```python
+raw_content = response.choices[0].message.content
+cleaned_json = clean_json_block(raw_content)
+agent_info = json.loads(cleaned_json)
+
+agent_name = agent_info["agent"]
+task = agent_info["task"]
+```
+
+此时：
+
+```python
+agent_name == "research_agent"
+```
+
+### Step 2: executor 通过 registry 真实调用 sub-agent
+
+executor 会构造 `enriched_task`：
+
+```python
+context = "\n".join([
+    f"Step {j+1} executed by {a}:\n{r}"
+    for j, (s, a, r) in enumerate(history)
+])
+
+enriched_task = f"""You are {agent_name}.
+
+Here is the context of what has been done so far:
+{context}
+
+Your next task is:
+{task}
+"""
+```
+
+因为这是第一步，`history` 还为空，所以传给 `research_agent` 的大概是：
+
+```text
+You are research_agent.
+
+Here is the context of what has been done so far:
+
+Your next task is:
+Search arXiv, Wikipedia, and the web for key sources on ensemble Kalman filter for time series forecasting.
+```
+
+真正执行发生在：
+
+```python
+output = agent_registry[agent_name](enriched_task)
+```
+
+因为 `agent_name` 是 `"research_agent"`，所以等价于：
+
+```python
+output = research_agent(enriched_task)
+```
+
+### Step 3: research_agent 内部再调用 tools
+
+`research_agent` 里面会重新组织自己的 `messages`：
+
+```python
+messages = [{"role": "user", "content": prompt.strip()}]
+```
+
+并且把工具函数传给模型：
+
+```python
+tools = [
+    research_tools.arxiv_search_tool,
+    research_tools.tavily_search_tool,
+    research_tools.wikipedia_search_tool
+]
+```
+
+然后调用：
+
+```python
+response = client.chat.completions.create(
+    model=model,
+    messages=messages,
+    tools=tools,
+    tool_choice="auto",
+    max_turns=12
+)
+```
+
+这里的意思是：
+
+```text
+research_agent 问 LLM: 这个 research task 怎么做？
+LLM 决定要不要调用工具。
+如果要调用工具，aisuite 帮忙执行对应 Python function。
+工具结果返回给 LLM。
+LLM 可以继续调用别的工具。
+最多允许 12 轮 tool iteration。
+最后 LLM 生成一个 research summary。
+```
+
+所以 `research_agent` 不是自己写死调用哪个工具，而是把工具能力交给 LLM 自动选择。
+
+### research_agent 返回的是全文吗？
+
+不是。
+
+这个 notebook 里的 research tools 通常只返回 metadata、摘要、片段和 URL。
+
+`arxiv_search_tool` 返回类似：
+
+```python
+{
+    "title": "...",
+    "authors": [...],
+    "published": "...",
+    "url": "...",
+    "summary": "...",
+    "link_pdf": "..."
+}
+```
+
+它有 arXiv abstract 和 PDF link，但不会自动下载 PDF，也不会读取 paper 全文。
+
+`tavily_search_tool` 返回类似：
+
+```python
+{
+    "title": "...",
+    "content": "...",
+    "url": "..."
+}
+```
+
+这里的 `content` 通常是搜索结果摘要或 snippet，不是完整网页正文。
+
+`wikipedia_search_tool` 返回类似：
+
+```python
+{
+    "title": "...",
+    "summary": "...",
+    "url": "..."
+}
+```
+
+所以 `research_agent` 更准确地说是：
+
+```text
+搜索 + 摘要 agent
+```
+
+而不是：
+
+```text
+全文 paper reading agent
+```
+
+如果要真的读 paper，需要额外增加工具：
+
+```text
+download_pdf_tool
+extract_pdf_text_tool
+read_arxiv_pdf_tool
+chunk_and_summarize_paper_tool
+```
+
+然后流程才能变成：
+
+```text
+search paper
+  -> get PDF link
+  -> download PDF
+  -> extract text
+  -> summarize methods / experiments / limitations
+  -> pass structured evidence to writer
+```
+
+### Step 4: research_agent 的输出如何传给 writer_agent？
+
+`research_agent` 最终会返回一个字符串，比如：
+
+```text
+Key sources found:
+1. Evensen introduced the Ensemble Kalman Filter as a Monte Carlo approximation for nonlinear filtering...
+   URL: ...
+2. Later work applies EnKF to nonlinear state-space models and data assimilation...
+   URL: ...
+3. Time series forecasting applications use EnKF to update latent state estimates as observations arrive...
+   URL: ...
+```
+
+executor 会把这个结果 append 到 `history`：
+
+```python
+history.append((step, agent_name, output))
+```
+
+此时 `history` 大概是：
+
+```python
+[
+    (
+        "Search for key academic papers on ensemble Kalman filter for time series forecasting.",
+        "research_agent",
+        "Key sources found:\n1. Evensen introduced..."
+    )
+]
+```
+
+下一步如果 planner step 是：
+
+```text
+Summarize the main methods and applications from the gathered sources.
+```
+
+executor 又会问 LLM router。LLM 可能返回：
+
+```json
+{
+  "agent": "writer_agent",
+  "task": "Summarize the main methods and applications from the gathered sources."
+}
+```
+
+然后 executor 重新构造 context：
+
+```python
+context = "\n".join([
+    f"Step {j+1} executed by {a}:\n{r}"
+    for j, (s, a, r) in enumerate(history)
+])
+```
+
+得到：
+
+```text
+Step 1 executed by research_agent:
+Key sources found:
+1. Evensen introduced the Ensemble Kalman Filter...
+2. ...
+```
+
+最后传给 writer 的 `enriched_task` 是：
+
+```text
+You are writer_agent.
+
+Here is the context of what has been done so far:
+Step 1 executed by research_agent:
+Key sources found:
+1. Evensen introduced the Ensemble Kalman Filter...
+2. ...
+
+Your next task is:
+Summarize the main methods and applications from the gathered sources.
+```
+
+所以 writer_agent 看到的是：
+
+```text
+前面 research_agent 的最终输出字符串
+```
+
+不是：
+
+```text
+工具原始 JSON
+paper 全文
+research_agent 的内部 tool-call trace
+```
+
+除非 research_agent 主动把这些内容写进自己的 final output。
+
+### Step 5: writer_agent 如何基于 history 写 draft？
+
+`writer_agent` 内部没有工具，它只是调用 LLM：
+
+```python
+messages = [
+    {
+        "role": "system",
+        "content": "You are a writing agent specialized in generating well-structured academic or technical content."
+    },
+    {
+        "role": "user",
+        "content": enriched_task
+    }
+]
+```
+
+所以 writer 的信息来源就是 `enriched_task`。
+
+如果 `enriched_task` 里只有很薄的摘要，writer 只能写出摘要级报告：
+
+```text
+高层背景
+方法大意
+应用场景
+粗略优缺点
+```
+
+它很难严谨写出：
+
+```text
+公式推导
+实验设置
+benchmark 结果
+paper 之间的细粒度差异
+真实 limitation
+可靠 citation-backed conclusion
+```
+
+因此这个 lab 的质量上限主要取决于：
+
+```text
+research_agent 给 writer_agent 的 evidence packet 有多厚
+```
+
+当前 notebook 更像教学 demo：
+
+```text
+search snippets / abstracts
+  -> summarize
+  -> write report
+```
+
+不是严肃 research pipeline：
+
+```text
+retrieve full paper
+  -> parse sections
+  -> extract claims/evidence
+  -> compare methods/results
+  -> write citation-grounded report
+```
+
+### Step 6: editor_agent 如何参与修改？
+
+后面如果有一步：
+
+```text
+Critique the draft for clarity, structure, and missing citations.
+```
+
+executor 可能把它路由到：
+
+```json
+{
+  "agent": "editor_agent",
+  "task": "Review the draft and suggest improvements in clarity, structure, and citation support."
+}
+```
+
+这时 `history` 已经包含 research output 和 writer draft。
+
+executor 会把所有历史都拼进 context：
+
+```text
+Step 1 executed by research_agent:
+Key sources found...
+
+Step 2 executed by writer_agent:
+The Ensemble Kalman Filter is...
+
+Step 3 executed by writer_agent:
+# Ensemble Kalman Filter for Time Series Forecasting
+...
+```
+
+然后传给 editor：
+
+```text
+You are editor_agent.
+
+Here is the context of what has been done so far:
+...
+
+Your next task is:
+Review the draft and suggest improvements in clarity, structure, and citation support.
+```
+
+`editor_agent` 返回的可能是：
+
+```text
+The draft is well structured, but it should:
+1. Add a clearer distinction between Kalman Filter and Ensemble Kalman Filter.
+2. Cite Evensen when introducing EnKF.
+3. Add limitations around ensemble size and nonlinear dynamics.
+4. Make the applications section more concrete.
+```
+
+executor 再 append：
+
+```python
+history.append((step, "editor_agent", output))
+```
+
+### Step 7: 最终 Markdown 是怎么来的？
+
+最后一步通常是：
+
+```text
+Generate a final Markdown document with the complete research report.
+```
+
+executor 可能路由给 `writer_agent`：
+
+```json
+{
+  "agent": "writer_agent",
+  "task": "Revise the report using all previous research findings and editor feedback, then output the final report as Markdown."
+}
+```
+
+这时 writer 能看到：
+
+```text
+research findings
+summary
+draft
+editor feedback
+```
+
+它输出 Markdown：
+
+```markdown
+# Ensemble Kalman Filter for Time Series Forecasting
+
+## Overview
+...
+
+## Key Methods
+...
+
+## Applications
+...
+
+## Limitations
+...
+
+## References
+...
+```
+
+notebook 最后取 `executor_history` 的最后一条：
+
+```python
+md = executor_history[-1][-1].strip("`")
+display(Markdown(md))
+```
+
+这里：
+
+```python
+executor_history[-1]
+```
+
+是最后一个 step 的 tuple：
+
+```python
+(step, agent_name, output)
+```
+
+所以：
+
+```python
+executor_history[-1][-1]
+```
+
+就是最后一个 agent 的输出文本，也就是最终 Markdown report。
+
+### message 和 history 的区别
+
+这个 notebook 里有两种上下文管理。
+
+第一种是每个 agent 内部的 `messages`：
+
+```python
+messages = [...]
+client.chat.completions.create(messages=messages)
+```
+
+这是某一次 LLM call 的 prompt/context。
+
+注意：`writer_agent`、`editor_agent`、`research_agent` 每次被调用时，都会重新创建自己的 `messages`。它们没有长期保存自己的 conversation memory。
+
+第二种是 executor 维护的 `history`：
+
+```python
+history = [
+    (step, agent_name, output),
+    ...
+]
+```
+
+这是整个 workflow 的主记忆。
+
+agent 之间的通信靠的是：
+
+```text
+previous agent output
+  -> executor history
+  -> context string
+  -> enriched_task
+  -> next agent input
+```
+
+不是：
+
+```text
+research_agent 直接 message writer_agent
+```
+
+而是：
+
+```text
+research_agent
+  -> output
+  -> executor history
+  -> writer_agent input
+```
+
+这是一种 manager-mediated communication：
+
+```text
+executor 像项目经理。
+research_agent 把结果交给 executor。
+executor 把结果整理进任务说明。
+writer_agent 从任务说明里读到前面的结果。
+```
+
+### sub-agent 和 tool 的边界
+
+这个 notebook 里容易混淆三层 callable：
+
+```text
+executor 调用 sub-agent
+sub-agent 调用 LLM
+research_agent 内部的 LLM 调用 tools
+```
+
+更精确的边界是：
+
+```text
+sub-agent:
+普通 Python 函数，由 executor 通过 agent_registry 调用。
+
+tool:
+暴露给 LLM 的函数能力，由 LLM 通过 tool calling 选择调用。
+
+history:
+executor 维护的 workflow-level memory，用来让下一个 agent 看到前面 agent 的输出。
+```
+
+所以：
+
+```text
+tool 是给 LLM 调的。
+sub-agent 是给 orchestrator/executor 调的。
+history 是给 agent 之间传上下文用的。
+```
+
+### 这个设计的质量上限和改进方向
+
+这个 lab 的设计很适合教学，因为它把 planning、tool use、multi-agent coordination、reflection 都串起来了。
+
+但如果要变成更可靠的 production research agent，我会优先改这些点：
+
+1. 让 `research_agent` 返回结构化 evidence packet，而不是一段自由文本。
+
+```json
+[
+  {
+    "title": "...",
+    "authors": ["..."],
+    "url": "...",
+    "abstract": "...",
+    "key_claims": ["...", "..."],
+    "methods": "...",
+    "evidence": "...",
+    "limitations": "...",
+    "relevance_to_topic": "..."
+  }
+]
+```
+
+2. 让 writer 明确只能基于 evidence 写，不要补不存在的细节。
+
+```text
+Use only the evidence above.
+Cite every technical claim.
+If evidence is insufficient, say so.
+Do not invent paper details.
+```
+
+3. 增加 PDF/full-text reading tools。
+
+```text
+search
+  -> download PDF
+  -> extract text
+  -> chunk sections
+  -> summarize method / experiment / result / limitation
+```
+
+4. 保存完整 trace。
+
+现在 writer 主要看到 research_agent 的 final output。更好的做法是把 tool calls、tool results、source metadata、citation map 都保存下来，方便 eval 和 debug。
+
+5. 给 executor 加 validation / retry。
+
+当前 executor 假设 LLM router 一定返回合法 JSON：
+
+```python
+agent_info = json.loads(cleaned_json)
+```
+
+生产环境应该加：
+
+```text
+JSON schema validation
+agent allowlist
+retry on invalid JSON
+max step limit
+error recovery
+trace logging
+```
+
+### 一句话总结
+
+这个 notebook 里的 multi-agent 通信不是 agent 之间直接聊天，而是 executor 维护一个 `history`，把每个 sub-agent 的输出拼进下一个 sub-agent 的任务上下文。sub-agent 本身是普通 Python 函数，由 `agent_registry[agent_name](enriched_task)` 调用；真正的外部工具只存在于 `research_agent` 内部，由它的 LLM/tool loop 自动选择调用。当前 research agent 主要传递摘要级证据，所以最终 report 的深度也主要受摘要质量限制。
